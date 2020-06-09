@@ -1,0 +1,22 @@
+{
+  "menuHome": "DOM",
+  "menuLikes": "LUBI",
+  "somethingIsWrong": "Operacje! Coś poszło nie tak. :(",
+  "loading": "Ładowanie...",
+  "yes": "TAK",
+  "no": "NIE",
+  "ok": "DOBRZE",
+  "youhaventliked": "Nie podobały Ci się jeszcze żadne gify.",
+  "notFound": "Nie znaleziono.",
+  "noGifsFound": "Nie znaleziono gifów.",
+  "noTitle": "Bez tytułu",
+  "doYouWantToDeleteFromFavorites": "Czy chcesz usunąć gif z ulubionych?",
+  "unlike": "Nie lubić",
+  "wait..": "CZEKAĆ..",
+  "similarGifs": "Powiązane gify",
+  "searchHere" : "Szukaj tutaj",
+  "searchLonger2Characters": "Wyszukiwanie musi być dłuższe niż 2 znaki.",
+  "noSuggestions": "Brak sugestii",
+  "nothing" : "Nic",
+  "edit": "EDYTOWAĆ"
+}

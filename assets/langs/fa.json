@@ -1,0 +1,22 @@
+{
+  "menuHome": "صفحه اصلی",
+  "menuLikes": "دوست دارد",
+  "somethingIsWrong": "عملیات! مشکلی پیش آمد.",
+  "loading": "بارگذاری...",
+  "yes": "آره",
+  "no": "نه",
+  "ok": "خوب",
+  "youhaventliked": "شما هنوز هیچ تیزهوش را دوست ندارید.",
+  "notFound": "پیدا نشد.",
+  "noGifsFound": "هیچ حرکتی پیدا نشد",
+  "noTitle": "بدون عنوان",
+  "doYouWantToDeleteFromFavorites": "آیا می خواهید gif را از موارد دلخواه حذف کنید؟",
+  "unlike": "دوست نداشتن",
+  "wait..": "صبر کن...",
+  "similarGifs": "Gif های مرتبط",
+  "searchHere" : "اینجا جستجو کنید",
+  "searchLonger2Characters": "جستجو باید بیش از 2 نویسه باشد.",
+  "noSuggestions": "هیچ پیشنهادی نیست",
+  "nothing" : "هیچ چی",
+  "edit": "ویرایش"
+}

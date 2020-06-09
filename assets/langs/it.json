@@ -1,0 +1,22 @@
+{
+  "menuHome": "CASA",
+  "menuLikes": "PREFERITI",
+  "somethingIsWrong": "Ops! Qualcosa è andato storto. :(",
+  "loading": "Caricamento in corso...",
+  "yes": "SÌ",
+  "no": "NO",
+  "ok": "OK",
+  "youhaventliked": "Non ti piace ancora nessuna gif.",
+  "notFound": "Non trovato.",
+  "noGifsFound": "Nessuna gif trovata.",
+  "noTitle": "Senza titolo",
+  "doYouWantToDeleteFromFavorites": "Vuoi eliminare gif dai preferiti?",
+  "unlike": "Unfavorite",
+  "wait..": "ASPETTARE..",
+  "similarGifs": "Gif correlate",
+  "searchHere" : "Cerca qui",
+  "searchLonger2Characters": "La ricerca deve contenere più di 2 caratteri.",
+  "noSuggestions": "Nessun suggerimento",
+  "nothing" : "Niente",
+  "edit": "MODIFICARE"
+}

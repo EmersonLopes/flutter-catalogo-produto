@@ -1,0 +1,22 @@
+{
+  "menuHome": "ДОМ",
+  "menuLikes": "НРАВИТСЯ",
+  "somethingIsWrong": "Ops! Что-то пошло не так. :(",
+  "loading": "Загрузка...",
+  "yes": "ДА",
+  "no": "НЕТ",
+  "ok": "OK",
+  "youhaventliked": "Вам еще не понравились картинки.",
+  "notFound": "Не найден.",
+  "noGifsFound": "Нет картинок дается.",
+  "noTitle": "Без заголовка",
+  "doYouWantToDeleteFromFavorites": "Вы хотите удалить GIF из избранного?",
+  "unlike": "Hелюбовь",
+  "wait..": "ПОДОЖДИТЕ..",
+  "similarGifs": "Похожие гифки",
+  "searchHere" : "Поищи здесь",
+  "searchLonger2Characters": "Поиск должен быть длиннее 2 символов.",
+  "noSuggestions": "Нет предложений",
+  "nothing" : "Ничего такого",
+  "edit": "РЕДАКТИРОВАТЬ"
+}

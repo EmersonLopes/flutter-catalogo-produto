@@ -1,0 +1,22 @@
+{
+  "menuHome": "HUIS",
+  "menuLikes": "ZOALS",
+  "somethingIsWrong": "Ops! Er is iets fout gegaan. :(",
+  "loading": "Bezig met laden...",
+  "yes": "JA",
+  "no": "NEE",
+  "ok": "OK",
+  "youhaventliked": "Je hebt nog geen gifs leuk gevonden.",
+  "notFound": "Niet gevonden.",
+  "noGifsFound": "Geen gifs gevonden.",
+  "noTitle": "Geen titel",
+  "doYouWantToDeleteFromFavorites": "Wil je gif verwijderen uit favorieten?",
+  "unlike": "Afkeer",
+  "wait..": "WACHT..",
+  "similarGifs": "Gerelateerde Gifs",
+  "searchHere" : "Zoek hier",
+  "searchLonger2Characters": "Zoeken moet langer zijn dan 2 tekens.",
+  "noSuggestions": "Geen suggesties",
+  "nothing" : "Niets",
+  "edit": "BEWERK"
+}

@@ -1,0 +1,22 @@
+{
+  "menuHome": "HOME",
+  "menuLikes": "LIKES",
+  "somethingIsWrong": "Ops! Something went wrong. :(",
+  "loading": "Loading...",
+  "yes": "YES",
+  "no": "NO",
+  "ok": "OK",
+  "youhaventliked": "You haven't liked any stickers yet.",
+  "notFound": "Not found.",
+  "noGifsFound": "No gifs found.",
+  "noTitle": "No title",
+  "doYouWantToDeleteFromFavorites": "Do you want to delete gif from favorites?",
+  "unlike": "Dislike",
+  "wait..": "WAIT..",
+  "similarGifs": "Related Gifs",
+  "searchHere" : "Search here",
+  "searchLonger2Characters": "Search must be longer than 2 characters.",
+  "noSuggestions": "No suggestions",
+  "nothing" : "Nothing",
+  "edit": "EDIT"
+}

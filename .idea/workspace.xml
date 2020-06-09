@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d6fb7203-7b70-4f75-8066-88fa7e533f6a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/controllers/produto_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/controllers/produto_controller.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/models/categoria.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/models/produto.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/pages/categoria_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/pages/lista_produto_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/repositories/api/api_produtos.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/app_list_tile.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/app_slide_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/controllers/gif_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/controllers/categoria_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/controllers/gif_controller.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/controllers/menu_controller.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/controllers/menu_controller.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/controllers/categoria_controller.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/controllers/suggestion_controller.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/controllers/suggestion_controller.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/gif.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/gif_search.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/giphy.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/menu.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/meta.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/pagination.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/home_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/likes_page.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/menu_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/lista_categoria_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/search_page.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/settings_page.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/sticker_page.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/api/api_giphy.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/api/api_categorias.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/api/api_suggestions.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/themes/theme_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/themes/theme_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/app_button_like.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/app_button_share.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/app_drawer.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/app_grid_tile.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/app_grid_tile_add.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/app_gridtile_error.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/app_gridview_error.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/app_iconbutton_search.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/app_slivertoboxadapter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_27" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1apE5ayi2q4bsOOC6YV5hX6I9hO" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/pages" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Dev\Android\my-catalog\lib\pages" />
+      <recent name="D:\Dev\Android\my-catalog\lib\controllers" />
+      <recent name="D:\Dev\Android\my-catalog\lib\repositories\api" />
+      <recent name="D:\Dev\Android\my-catalog\lib\widgets" />
+      <recent name="D:\Dev\Android\Funny Stickers\funny-stickers\assets\images" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Dev\Android\sticker_fun\lib\repository\api" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="child" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d6fb7203-7b70-4f75-8066-88fa7e533f6a" name="Default Changelist" comment="" />
+      <created>1587423952518</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587423952518</updated>
+    </task>
+    <task id="LOCAL-00001" summary="First commit">
+      <created>1588204204289</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1588204204289</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Mais traduções; ajustes gerais.">
+      <created>1589505964960</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1589505964960</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Ajustes na pesquisa e edição do menu.">
+      <created>1589540912657</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1589540912657</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Ajustes na page likes.">
+      <created>1589659768961</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1589659768961</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Mais ajustes">
+      <created>1590281107637</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1590281107637</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Correção na page likes, alteração do nome do BD e ajuste no scroll controller das pages home e search.">
+      <created>1590538337638</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1590538337638</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Page likes alterada para usar litGifLikes do gifController.">
+      <created>1590579554526</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1590579554526</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Logo criada.">
+      <created>1590628092773</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1590628092773</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="First commit" />
+    <MESSAGE value="Mais traduções; ajustes gerais." />
+    <MESSAGE value="Ajustes na pesquisa e edição do menu." />
+    <MESSAGE value="Ajustes na page likes." />
+    <MESSAGE value="Mais ajustes" />
+    <MESSAGE value="Correção na page likes, alteração do nome do BD e ajuste no scroll controller das pages home e search." />
+    <MESSAGE value="Page likes alterada para usar litGifLikes do gifController." />
+    <MESSAGE value="Logo criada." />
+    <option name="LAST_COMMIT_MESSAGE" value="Logo criada." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/repositories/sqlite/database_helper.dart</url>
+          <line>96</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="dart-exception" />
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
