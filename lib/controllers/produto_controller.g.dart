@@ -8,8 +8,8 @@ part of 'produto_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$ProdutoController on _CategoriaController, Store {
-  final _$statusAtom = Atom(name: '_CategoriaController.status');
+mixin _$ProdutoController on _ProdutoController, Store {
+  final _$statusAtom = Atom(name: '_ProdutoController.status');
 
   @override
   Status get status {

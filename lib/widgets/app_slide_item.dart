@@ -1,73 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_foodybite/util/const.dart';
+import 'package:sticker_fun/models/produto.dart';
+import 'package:transparent_image/transparent_image.dart';
 
-class SlideItem extends StatefulWidget {
+class AppSlideItem extends StatefulWidget {
+  final Produto produto;
 
-  final String img;
-  final String title;
-  final String address;
-  final String rating;
-
-  SlideItem({
-    Key key,
-    @required this.img,
-    @required this.title,
-    @required this.address,
-    @required this.rating,
-  })
-      : super(key: key);
+  AppSlideItem({@required this.produto});
 
   @override
-  _SlideItemState createState() => _SlideItemState();
+  _AppSlideItemState createState() => _AppSlideItemState();
 }
 
-class _SlideItemState extends State<SlideItem> {
+class _AppSlideItemState extends State<AppSlideItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
       child: Container(
-        height: MediaQuery.of(context).size.height / 2.9,
+        height: 300, //MediaQuery.of(context).size.height / 2.9,
         width: MediaQuery.of(context).size.width / 1.2,
         child: Card(
-          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           elevation: 3.0,
           child: Column(
             children: <Widget>[
               Stack(
                 children: <Widget>[
                   Container(
-                    height: MediaQuery.of(context).size.height/3.7,
+                    height: 190.0,// MediaQuery.of(context).size.height / 3.7,
                     width: MediaQuery.of(context).size.width,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
-                      child: Image.asset(
-                        "${widget.img}",
-                        fit: BoxFit.cover,
-                      ),
+                      child: FadeInImage.memoryNetwork(
+                          fit: BoxFit.cover,
+                          placeholder: kTransparentImage,
+                          image: widget.produto.imagens[0].url),
                     ),
                   ),
-
                   Positioned(
                     top: 6.0,
                     right: 6.0,
                     child: Card(
-                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(4.0)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.0)),
                       child: Padding(
                         padding: EdgeInsets.all(2.0),
                         child: Row(
                           children: <Widget>[
                             Icon(
                               Icons.star,
-                              color: Constants.ratingBG,
+                              color: Colors.amber,
                               size: 10,
                             ),
-
                             Text(
-                              " ${widget.rating} ",
+                              " 4.5 ",
                               style: TextStyle(
                                 fontSize: 10,
                               ),
@@ -77,15 +67,15 @@ class _SlideItemState extends State<SlideItem> {
                       ),
                     ),
                   ),
-
                   Positioned(
                     top: 6.0,
                     left: 6.0,
                     child: Card(
-                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(3.0)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3.0)),
                       child: Padding(
                         padding: EdgeInsets.all(4.0),
-                        child:Text(
+                        child: Text(
                           " OPEN ",
                           style: TextStyle(
                             fontSize: 10,
@@ -96,11 +86,8 @@ class _SlideItemState extends State<SlideItem> {
                       ),
                     ),
                   ),
-
-
                 ],
               ),
-
               SizedBox(height: 7.0),
 
               Padding(
@@ -108,7 +95,9 @@ class _SlideItemState extends State<SlideItem> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Text(
-                    "${widget.title}",
+                    "${widget.produto.descProduto}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
@@ -125,7 +114,9 @@ class _SlideItemState extends State<SlideItem> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Text(
-                    "${widget.address}",
+                    widget.produto.detalhes,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w300,
@@ -133,9 +124,6 @@ class _SlideItemState extends State<SlideItem> {
                   ),
                 ),
               ),
-
-              SizedBox(height: 10.0),
-
             ],
           ),
         ),

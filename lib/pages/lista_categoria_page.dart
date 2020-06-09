@@ -1,50 +1,34 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:sticker_fun/controllers/gif_controller.dart';
-import 'package:sticker_fun/controllers/menu_controller.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:sticker_fun/controllers/categoria_controller.dart';
 import 'package:sticker_fun/controllers/status_ext.dart';
-import 'package:sticker_fun/models/gif.dart';
-import 'package:sticker_fun/models/menu.dart';
+import 'package:sticker_fun/models/categoria.dart';
+import 'package:sticker_fun/pages/categoria_page.dart';
 import 'package:sticker_fun/utils/dialogs.dart';
-import 'package:sticker_fun/widgets/app_grid_tile.dart';
-import 'package:sticker_fun/widgets/app_grid_tile_add.dart';
-import 'package:sticker_fun/widgets/app_gridview_error.dart';
-import 'package:sticker_fun/widgets/app_slivertoboxadapter.dart';
+import 'package:transparent_image/transparent_image.dart';
 
-class MenuPage extends StatefulWidget {
+class ListaCategoriaPage extends StatefulWidget {
   @override
-  _MenuPageState createState() => _MenuPageState();
+  _ListaCategoriaPageState createState() => _ListaCategoriaPageState();
 }
 
-class _MenuPageState extends State<MenuPage> {
-  final MenuController _menuController = MenuController();
-  GifController gifController = GifController();
-  Locale myLocale;
+class _ListaCategoriaPageState extends State<ListaCategoriaPage> {
+  final CategoriaController _categoriaController = CategoriaController();
 
-  TextEditingController _textController;
+  Locale myLocale;
 
   ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
-    _menuController.getMenusSqlite();
-    _textController = TextEditingController();
-
-    scrollController.addListener(() {
-      if ((scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent) &&
-          (gifController.status != Status.error))
-        gifController.getSearch(_textController.text, myLocale.languageCode);
-    });
-
+    _categoriaController.getCategorias();
     super.initState();
   }
 
   @override
   void dispose() {
-    _textController.dispose();
     super.dispose();
   }
 
@@ -63,70 +47,63 @@ class _MenuPageState extends State<MenuPage> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                _onAddPressed(context);
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                  return CategoriaPage();
+                }));
               }),
         ],
       ),
       body: Observer(
         builder: (BuildContext context) {
-          if (_menuController.status == Status.loading)
+          if (_categoriaController.status == Status.loading)
             return Center(
               child: CircularProgressIndicator(),
             );
 
-          if (_menuController.status == Status.error)
+          if (_categoriaController.status == Status.error)
             return Center(
-                child: AppGridViewError(
-              iconSize: 28.0,
-              onButtonClick: _menuController.getMenusSqlite,
-            ));
+                child: Text('Não foi possível carregar as informações'));
 
-          return _listMenu();
+          return _listCategorias();
         },
       ),
     );
   }
 
-  _listMenu() {
+  _listCategorias() {
     return Container(
       padding: EdgeInsets.all(8.0),
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: _menuController.listMenu.length,
+        itemCount: _categoriaController.listCategorias.length,
         itemBuilder: (BuildContext context, int index) {
-          Menu menu = _menuController.listMenu[index];
+          Categoria categoria = _categoriaController.listCategorias[index];
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: ListTile(
-              leading: SizedBox(
-                  width: 50.0,
-                  child: CachedNetworkImage(
-                    imageUrl: menu.url,
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) =>
-                            LinearProgressIndicator(
-                                value: downloadProgress.progress),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  )),
-
-              /*FadeInImage.memoryNetwork(
-                                placeholder: kTransparentImage, image: menu.url),
-                          ),*/
+              leading: Container(
+                height: 50.0,
+                width: 50.0,
+                child: FadeInImage.memoryNetwork(
+                    fit: BoxFit.cover,
+                    placeholder: kTransparentImage,
+                    image: categoria.url),
+              ),
               title: Text(
-                menu.title,
+                categoria.descCategoria,
                 style: TextStyle(fontWeight: FontWeight.w500),
               ),
               trailing: IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () async {
-                    print('MENU ID>>>' + menu.id.toString());
+                    print('MENU ID>>>' + categoria.codCategoria.toString());
                     //if (i > 0) _menuController.getMenusSqlite();
                     Dialogs.showQuestion(
                             context, 'Deletar menu', "Deseja deletar menu?")
                         .then((value) async {
-                      if (value) {
-                        int i = await _menuController.deleteMenuSqlite(menu.id);
-                      }
+                      /*if (value) {
+                        int i = await _categoriaController.deleteMenuSqlite(menu.id);
+                      }*/
                     });
                   }),
             ),
@@ -136,90 +113,6 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 
-  void _onAddPressed(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: ((_) {
-          return Column(
-            children: <Widget>[
-              ListTile(
-                title: TextField(
-                  decoration: InputDecoration(
-                    hintText: tr('searchHere'),
-                  ),
-                  controller: _textController,
-                  onSubmitted: (value) {
-                    if (value.length > 2)
-                      gifController.getSearch(value, myLocale.languageCode);
-                  },
-                ),
-                trailing: Icon(
-                  Icons.search,
-                ),
-                onTap: () {
-                  if (_textController.text.length > 2)
-                    gifController.getSearch(
-                        _textController.text, myLocale.languageCode);
-                },
-              ),
-              SizedBox(
-                height: 5.0,
-              ),
-              Expanded(
-                child: Observer(builder: (BuildContext context) {
-                  if ((gifController.status == Status.loading) &&
-                      (gifController.listGif.length == 0))
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
 
-                  if ((gifController.status == Status.error) &&
-                      (gifController.listGif.length == 0))
-                    return Center(
-                        child: AppGridViewError(
-                      iconSize: 28.0,
-                      onButtonClick: gifController.getTrending,
-                    ));
 
-                  return CustomScrollView(
-                    controller: scrollController,
-                    slivers: <Widget>[
-                      SliverGrid(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisSpacing: 2.0, crossAxisCount: 3),
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            Gif gif = gifController.listGif[index];
-                            return AppGridTileAdd(
-                              gif: gif,
-                              onAddClick: () async {
-                                int i = await _addMenu(gif);
-                                if (i > 0) {
-                                  _menuController.getMenusSqlite();
-                                  Navigator.pop(context);
-                                }
-                              },
-                            );
-                          },
-                          childCount: gifController.listGif.length,
-                        ),
-                      ),
-                      AppSliverToBoxAdapter(
-                        status: gifController.status,
-                        onButtonClick: gifController.getTrending,
-                      ),
-                    ],
-                  );
-                }),
-              ),
-            ],
-          );
-        }));
-  }
-
-  Future<int> _addMenu(Gif gif) async {
-    int i = await _menuController.addMenuSqlite(
-        _textController.text.toUpperCase(), gif);
-    return i;
-  }
 }

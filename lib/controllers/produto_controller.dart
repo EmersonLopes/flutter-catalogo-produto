@@ -1,27 +1,29 @@
 import 'package:mobx/mobx.dart';
 import 'package:sticker_fun/controllers/status_ext.dart';
 import 'package:sticker_fun/models/categoria.dart';
+import 'package:sticker_fun/models/produto.dart';
 import 'package:sticker_fun/repositories/api/api_categorias.dart';
+import 'package:sticker_fun/repositories/api/api_produtos.dart';
 
-part 'categoria_controller.g.dart';
+part 'produto_controller.g.dart';
 
-class CategoriaController = _CategoriaController with _$CategoriaController;
+class ProdutoController = _ProdutoController with _$ProdutoController;
 
-abstract class _CategoriaController with Store {
-  final _apiGiphy = ApiCategorias();
+abstract class _ProdutoController with Store {
+  final _apiProdutos = ApiProdutos();
   int _offset = 0;
 
-  ObservableList<Categoria> listCategorias = ObservableList<Categoria>();
+  ObservableList<Produto> listMaisVendidos = ObservableList<Produto>();
 
   @observable
   Status status = Status.none;
 
   @action
-  getCategorias() async {
+  getMaisVendidos() async {
     try {
       status = Status.loading;
-      List<Categoria> list = await _apiGiphy.getCategorias(_offset);
-      listCategorias.addAll(list);
+      List<Produto> list = await _apiProdutos.getMaisVendidos();
+      listMaisVendidos.addAll(list);
       status = Status.success;
     } catch (e) {
       status = Status.error;

@@ -9,10 +9,11 @@ class ThemeService {
   IThemeRepository _themeRepository;
 
   ThemeData get lightTheme => ThemeData(
-    primarySwatch: Colors.teal,
-    accentColor: Colors.deepPurpleAccent,
+    primarySwatch: Colors.orange,
+    accentColor: Colors.amber,
     brightness: Brightness.light,
     scaffoldBackgroundColor: Colors.white,
+    appBarTheme: AppBarTheme(color: Colors.white),
   );
 
   ThemeData get darkTheme => ThemeData(

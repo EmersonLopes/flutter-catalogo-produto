@@ -2,28 +2,29 @@ import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:sticker_fun/models/categoria.dart';
+import 'package:sticker_fun/models/produto.dart';
 import 'package:sticker_fun/utils/constants.dart';
 import 'dart:convert';
 
 import '../CustomException.dart';
 
-class ApiCategorias {
+class ApiProdutos {
   final int _timeOut = 10;
 
-  Future<List<Categoria>> getCategorias(int offset) async {
+  Future<List<Produto>> getMaisVendidos() async {
 
     Uri uri =
-        Uri.http(Constants.URL_BASE, Constants.URL_CATEGORIAS);
+        Uri.http(Constants.URL_BASE, Constants.URL_MAIS_VENDIDOS);
     print("URI>>> ${uri.toString()}");
 
     try {
       final response = await http.get(uri).timeout(Duration(seconds: _timeOut));
       List responseJson = _response(response);
       print("RESPONSE>>> ${response.body}");
-      List<Categoria> listCategoria =  responseJson.map((i)=> Categoria.fromJson(i)).toList();
+      List<Produto> list =  responseJson.map((i)=> Produto.fromJson(i)).toList();
 
 
-      return listCategoria;
+      return list;
     } on TimeoutException {
       throw FetchDataException('Timeout');
     } on SocketException {
