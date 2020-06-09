@@ -1,9 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sticker_fun/controllers/categoria_controller.dart';
+
+import '../models/categoria.dart';
+import '../models/categoria.dart';
+import '../models/categoria.dart';
 
 class CategoriaPage extends StatefulWidget {
   @override
@@ -12,18 +17,18 @@ class CategoriaPage extends StatefulWidget {
 
 class _CategoriaPageState extends State<CategoriaPage> {
   final CategoriaController _categoriaController = CategoriaController();
-  TextEditingController _textController;
+  TextEditingController _textDescricaoController;
   final picker = ImagePicker();
 
   @override
   void initState() {
-    _textController = TextEditingController();
+    _textDescricaoController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _textController.dispose();
+    _textDescricaoController.dispose();
     super.dispose();
   }
 
@@ -35,6 +40,9 @@ class _CategoriaPageState extends State<CategoriaPage> {
         actions: <Widget>[
           FlatButton(
             child: Text('LIMPAR'),
+            onPressed: (){
+              _categoriaController.setImage(null);
+            },
           )
         ],
       ),
@@ -49,6 +57,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           TextField(
+            controller: _textDescricaoController,
             decoration:
                 InputDecoration(hintText: 'Informe a descrição da categoria'),
           ),
@@ -84,7 +93,9 @@ class _CategoriaPageState extends State<CategoriaPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                     side: BorderSide(color: Theme.of(context).accentColor)),
-                onPressed: () {},
+                onPressed: () {
+                  _SalvarCategoria();
+                },
               ))
         ],
       ),
@@ -135,17 +146,6 @@ class _CategoriaPageState extends State<CategoriaPage> {
       _categoriaController.setImage(null);
   }
 
-  _FotoEscolhida(File img) {
-    return Expanded(
-      child: Center(
-        child: Image.file(
-          img,
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-
   _IconeTirarFoto() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -161,5 +161,17 @@ class _CategoriaPageState extends State<CategoriaPage> {
         )
       ],
     );
+  }
+
+  Future<void> _SalvarCategoria() async {
+    Categoria categoria = Categoria();
+    categoria.codCategoria = 0;
+    categoria.descCategoria = _textDescricaoController.text;
+    var bytes = _categoriaController.image.readAsBytesSync();
+    categoria.imagem = base64Encode(bytes);
+
+    debugPrint(categoria.toString());
+    Categoria c = await _categoriaController.updateCategoria(categoria);
+    print(c);
   }
 }

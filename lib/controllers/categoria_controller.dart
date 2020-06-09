@@ -5,6 +5,9 @@ import 'package:sticker_fun/controllers/status_ext.dart';
 import 'package:sticker_fun/models/categoria.dart';
 import 'package:sticker_fun/repositories/api/api_categorias.dart';
 
+import '../models/categoria.dart';
+import '../models/categoria.dart';
+
 part 'categoria_controller.g.dart';
 
 class CategoriaController = _CategoriaController with _$CategoriaController;
@@ -28,6 +31,18 @@ abstract class _CategoriaController with Store {
       List<Categoria> list = await _apiCategoria.getCategorias(_offset);
       listCategorias.addAll(list);
       status = Status.success;
+    } catch (e) {
+      status = Status.error;
+      throw e.toString();
+    }
+  }
+
+  Future<Categoria> updateCategoria(Categoria categoria) async {
+    try {
+      status = Status.loading;
+      Categoria c = await _apiCategoria.updateCategoria(categoria);
+      status = Status.success;
+      return c;
     } catch (e) {
       status = Status.error;
       throw e.toString();

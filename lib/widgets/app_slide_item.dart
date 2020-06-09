@@ -91,7 +91,7 @@ class _AppSlideItemState extends State<AppSlideItem> {
               SizedBox(height: 7.0),
 
               Padding(
-                padding: EdgeInsets.only(left: 15.0),
+                padding: EdgeInsets.only(left: 12.0, right: 8.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Text(
@@ -110,7 +110,7 @@ class _AppSlideItemState extends State<AppSlideItem> {
               SizedBox(height: 7.0),
 
               Padding(
-                padding: EdgeInsets.only(left: 15.0),
+                padding: EdgeInsets.only(left: 12.0, right: 8.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Text(

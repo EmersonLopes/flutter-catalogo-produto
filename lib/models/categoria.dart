@@ -21,4 +21,11 @@ class Categoria {
     data['url'] = this.url;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Categoria{codCategoria: $codCategoria, descCategoria: $descCategoria, imagem: $imagem, url: $url}';
+  }
+
+
 }

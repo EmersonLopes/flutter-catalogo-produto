@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sticker_fun/models/categoria.dart';
 import 'package:sticker_fun/models/produto.dart';
@@ -7,9 +8,10 @@ import 'package:sticker_fun/utils/constants.dart';
 import 'dart:convert';
 
 import '../CustomException.dart';
+import 'api_base.dart';
 
-class ApiProdutos {
-  final int _timeOut = 10;
+class ApiProdutos extends ApiBase {
+
 
   Future<List<Produto>> getMaisVendidos() async {
 
@@ -18,7 +20,7 @@ class ApiProdutos {
     print("URI>>> ${uri.toString()}");
 
     try {
-      final response = await http.get(uri).timeout(Duration(seconds: _timeOut));
+      final response = await http.get(uri, headers: headers).timeout(Duration(seconds: timeOut));
       List responseJson = _response(response);
       print("RESPONSE>>> ${response.body}");
       List<Produto> list =  responseJson.map((i)=> Produto.fromJson(i)).toList();
