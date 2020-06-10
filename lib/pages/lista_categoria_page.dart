@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_skeleton/flutter_skeleton.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sticker_fun/controllers/categoria_controller.dart';
 import 'package:sticker_fun/controllers/status_ext.dart';
@@ -47,17 +49,25 @@ class _ListaCategoriaPageState extends State<ListaCategoriaPage> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
                   return CategoriaPage();
-                }));
+                })).then((value) {
+                  if ((value != null) && (value))
+                    _categoriaController.getCategorias();
+                });
               }),
         ],
       ),
       body: Observer(
         builder: (BuildContext context) {
           if (_categoriaController.status == Status.loading)
-            return Center(
-              child: CircularProgressIndicator(),
+            return CardListSkeleton(
+              style: SkeletonStyle(
+                isShowAvatar: true,
+                isCircleAvatar: true,
+                barCount: 0,
+              ),
             );
 
           if (_categoriaController.status == Status.error)
@@ -84,10 +94,12 @@ class _ListaCategoriaPageState extends State<ListaCategoriaPage> {
               leading: Container(
                 height: 50.0,
                 width: 50.0,
-                child: FadeInImage.memoryNetwork(
-                    fit: BoxFit.cover,
-                    placeholder: kTransparentImage,
-                    image: categoria.url),
+                child: categoria.imagem.isEmpty
+                    ? FadeInImage.memoryNetwork(
+                        fit: BoxFit.cover,
+                        placeholder: kTransparentImage,
+                        image: categoria.url)
+                    : _ImagemBase64(categoria.imagem),
               ),
               title: Text(
                 categoria.descCategoria,
@@ -113,6 +125,15 @@ class _ListaCategoriaPageState extends State<ListaCategoriaPage> {
     );
   }
 
-
-
+  _ImagemBase64(String img64) {
+    final decodedBytes = base64Decode(img64);
+//    var file = File();
+//    file.writeAsBytesSync(decodedBytes);
+//    return Image.file(file, fit: BoxFit.cover);
+    return Image.memory(decodedBytes);
+    /*
+    _bytesImage = Base64Decoder().convert(_imgString);
+    Image.memory(_bytesImage)
+    Image.memory(_bytesImage).image*/
+  }
 }

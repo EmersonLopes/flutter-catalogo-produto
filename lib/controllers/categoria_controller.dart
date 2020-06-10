@@ -27,6 +27,7 @@ abstract class _CategoriaController with Store {
   @action
   getCategorias() async {
     try {
+      listCategorias.clear();
       status = Status.loading;
       List<Categoria> list = await _apiCategoria.getCategorias(_offset);
       listCategorias.addAll(list);

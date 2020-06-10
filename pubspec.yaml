@@ -30,7 +30,7 @@ dependencies:
   dio: ^3.0.8
   path_provider: ^1.6.0
   share_extend: "^1.1.1"
-  xml: ^3.5.0
+  flutter_skeleton: ^0.1.0+1
   sqflite: ^1.2.2
   cached_network_image: ^2.1.0+1
   image_picker: ^0.6.7+1

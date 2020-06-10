@@ -169,9 +169,9 @@ class _CategoriaPageState extends State<CategoriaPage> {
     categoria.descCategoria = _textDescricaoController.text;
     var bytes = _categoriaController.image.readAsBytesSync();
     categoria.imagem = base64Encode(bytes);
-
-    debugPrint(categoria.toString());
     Categoria c = await _categoriaController.updateCategoria(categoria);
-    print(c);
+    if(c.codCategoria > 0)
+      Navigator.pop(context,true);
+
   }
 }

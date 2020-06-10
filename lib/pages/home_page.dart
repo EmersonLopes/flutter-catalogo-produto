@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_skeleton/flutter_skeleton.dart';
 import 'package:provider/provider.dart';
 import 'package:sticker_fun/controllers/categoria_controller.dart';
 import 'package:sticker_fun/controllers/produto_controller.dart';
@@ -116,7 +119,6 @@ class _MyHomePageState extends State<HomePage> {
       child: ListView(
         children: <Widget>[
           SizedBox(height: 12.0),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -147,22 +149,22 @@ class _MyHomePageState extends State<HomePage> {
                   ],
                 ),
                 onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context){
-                          return ListaCategoriaPage();
-                        },
-                      ),
-                    );
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return ListaCategoriaPage();
+                      },
+                    ),
+                  ).then((onValue) {
+                    categoriaController.getCategorias();
+                  });
                 },
               ),
             ],
           ),
           SizedBox(height: 6.0),
           _Categorias(),
-
           SizedBox(height: 16.0),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -177,9 +179,7 @@ class _MyHomePageState extends State<HomePage> {
           ),
           SizedBox(height: 6.0),
           _MaisVendidos(),
-
           SizedBox(height: 6.0),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -204,15 +204,27 @@ class _MyHomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         if ((categoriaController.status == Status.loading) &&
             (categoriaController.listCategorias.length == 0))
-          return Center(
-            child: CircularProgressIndicator(),
+          return SizedBox(
+            height: 100.0,
+            child: CardSkeleton(
+              style: SkeletonStyle(
+                isCircleAvatar: false,
+                isShowAvatar: true,
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                barCount: 0,
+              ),
+            ),
           );
 
         if ((categoriaController.status == Status.error) &&
             (categoriaController.listCategorias.length == 0))
-          return Center(child: Container());
+          return SizedBox(
+            height: 100.0,
+            child: IconButton(icon: Icon(Icons.error_outline, color: Theme.of(context).primaryColor,),)
+          );
 
-        return Container(
+        return
+          Container(
           height: 100.0, //MediaQuery.of(context).size.height / 6,
           child: ListView.builder(
             primary: false,
@@ -225,11 +237,11 @@ class _MyHomePageState extends State<HomePage> {
               Categoria categoria = categoriaController.listCategorias[index];
 
               return InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                        return ListaProdutosPage(titulo: categoria.descCategoria);
-                      }));
+                    return ListaProdutosPage(titulo: categoria.descCategoria);
+                  }));
                 },
                 child: Padding(
                   padding: EdgeInsets.only(right: 10.0),
@@ -237,14 +249,17 @@ class _MyHomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(8.0),
                     child: Stack(
                       children: <Widget>[
-                        FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          fit: BoxFit.cover,
-                          image: categoria.url,
-                          height: 100.0,
-                          //MediaQuery.of(context).size.height / 6,
-                          width: 100.0, //MediaQuery.of(context).size.height / 6,
-                        ),
+                        categoria.imagem.isEmpty
+                            ? FadeInImage.memoryNetwork(
+                                placeholder: kTransparentImage,
+                                fit: BoxFit.cover,
+                                image: categoria.url,
+                                height: 100.0,
+                                //MediaQuery.of(context).size.height / 6,
+                                width:
+                                    100.0, //MediaQuery.of(context).size.height / 6,
+                              )
+                            : _ImagemBase64(categoria.imagem),
                         Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -259,8 +274,10 @@ class _MyHomePageState extends State<HomePage> {
                               // stops: [0.0, 0.1],
                             ),
                           ),
-                          height: 100.0, //MediaQuery.of(context).size.height / 6,
-                          width: 100.0, //MediaQuery.of(context).size.height / 6,
+                          height: 100.0,
+                          //MediaQuery.of(context).size.height / 6,
+                          width:
+                              100.0, //MediaQuery.of(context).size.height / 6,
                         ),
                         Center(
                           child: Container(
@@ -331,7 +348,9 @@ class _MyHomePageState extends State<HomePage> {
 
               return Padding(
                 padding: EdgeInsets.only(right: 10.0),
-                child: AppSlideItem(produto: produto,),
+                child: AppSlideItem(
+                  produto: produto,
+                ),
               );
             },
           ),
@@ -343,5 +362,22 @@ class _MyHomePageState extends State<HomePage> {
   void CarregaInformacoes() {
     produtoController.getMaisVendidos();
     categoriaController.getCategorias();
+  }
+
+  _ImagemBase64(String img64) {
+    final decodedBytes = base64Decode(img64);
+//    var file = File();
+//    file.writeAsBytesSync(decodedBytes);
+//    return Image.file(file, fit: BoxFit.cover);
+    return Image.memory(
+      decodedBytes,
+      fit: BoxFit.cover,
+      height: 100.0,
+      width: 100.0,
+    );
+    /*
+    _bytesImage = Base64Decoder().convert(_imgString);
+    Image.memory(_bytesImage)
+    Image.memory(_bytesImage).image*/
   }
 }
