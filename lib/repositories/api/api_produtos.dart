@@ -12,6 +12,28 @@ import 'api_base.dart';
 
 class ApiProdutos extends ApiBase {
 
+  Future<List<Produto>> getProdutos(String pCodCategoria) async {
+
+    Uri uri =
+    Uri.http(Constants.URL_BASE, Constants.URL_PRODUTOS+pCodCategoria);
+    print("URI>>> ${uri.toString()}");
+
+    try {
+      final response = await http.get(uri, headers: headers).timeout(Duration(seconds: timeOut));
+      List responseJson = _response(response);
+      print("RESPONSE>>> ${response.body}");
+      List<Produto> list =  responseJson.map((i)=> Produto.fromJson(i)).toList();
+
+
+      return list;
+    } on TimeoutException {
+      throw FetchDataException('Timeout');
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }catch(e){
+      throw Exception(e);
+    }
+  }
 
   Future<List<Produto>> getMaisVendidos() async {
 

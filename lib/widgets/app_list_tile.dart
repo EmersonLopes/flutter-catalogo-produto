@@ -34,11 +34,11 @@ class _AppListTileState extends State<AppListTile> {
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
                     ),
-                    child: FadeInImage.memoryNetwork(
+                    child: widget.produto.imagens?.length > 0? FadeInImage.memoryNetwork(
                       placeholder: kTransparentImage,
                       fit: BoxFit.cover,
                       image: widget.produto.imagens[0].url,
-                    ),
+                    ):Container(),
                   ),
                 ),
                 _Rating(),

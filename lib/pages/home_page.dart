@@ -116,85 +116,90 @@ class _MyHomePageState extends State<HomePage> {
   _body() {
     return Padding(
       padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-      child: ListView(
-        children: <Widget>[
-          SizedBox(height: 12.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Categorias",
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w800,
+      child: RefreshIndicator(
+        onRefresh: () {
+          return CarregaInformacoes();
+        },
+        child: ListView(
+          children: <Widget>[
+            SizedBox(height: 12.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Categorias",
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-              ),
-              FlatButton(
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      "EDIT",
-                      style: TextStyle(
+                FlatButton(
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        "EDIT",
+                        style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 2.0,
+                      ),
+                      Icon(
+                        Icons.edit,
+                        size: 14.0,
                         color: Theme.of(context).accentColor,
                       ),
-                    ),
-                    SizedBox(
-                      width: 2.0,
-                    ),
-                    Icon(
-                      Icons.edit,
-                      size: 14.0,
-                      color: Theme.of(context).accentColor,
-                    ),
-                  ],
+                    ],
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return ListaCategoriaPage();
+                        },
+                      ),
+                    ).then((onValue) {
+                      categoriaController.getCategorias();
+                    });
+                  },
                 ),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return ListaCategoriaPage();
-                      },
-                    ),
-                  ).then((onValue) {
-                    categoriaController.getCategorias();
-                  });
-                },
-              ),
-            ],
-          ),
-          SizedBox(height: 6.0),
-          _Categorias(),
-          SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Mais Vendidos",
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w800,
+              ],
+            ),
+            SizedBox(height: 6.0),
+            _Categorias(),
+            SizedBox(height: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Mais Vendidos",
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 6.0),
-          _MaisVendidos(),
-          SizedBox(height: 6.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Promoções",
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w800,
+              ],
+            ),
+            SizedBox(height: 6.0),
+            _MaisVendidos(),
+            SizedBox(height: 6.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Promoções",
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 6.0),
-          _MaisVendidos(),
-        ],
+              ],
+            ),
+            SizedBox(height: 6.0),
+            _MaisVendidos(),
+          ],
+        ),
       ),
     );
   }
@@ -219,12 +224,15 @@ class _MyHomePageState extends State<HomePage> {
         if ((categoriaController.status == Status.error) &&
             (categoriaController.listCategorias.length == 0))
           return SizedBox(
-            height: 100.0,
-            child: IconButton(icon: Icon(Icons.error_outline, color: Theme.of(context).primaryColor,),)
-          );
+              height: 100.0,
+              child: IconButton(
+                icon: Icon(
+                  Icons.error_outline,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ));
 
-        return
-          Container(
+        return Container(
           height: 100.0, //MediaQuery.of(context).size.height / 6,
           child: ListView.builder(
             primary: false,
@@ -240,7 +248,7 @@ class _MyHomePageState extends State<HomePage> {
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return ListaProdutosPage(titulo: categoria.descCategoria);
+                    return ListaProdutosPage(categoria);
                   }));
                 },
                 child: Padding(
@@ -359,9 +367,9 @@ class _MyHomePageState extends State<HomePage> {
     );
   }
 
-  void CarregaInformacoes() {
-    produtoController.getMaisVendidos();
-    categoriaController.getCategorias();
+  Future<void> CarregaInformacoes() async {
+    await produtoController.getMaisVendidos();
+    await categoriaController.getCategorias();
   }
 
   _ImagemBase64(String img64) {

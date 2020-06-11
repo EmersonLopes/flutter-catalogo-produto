@@ -13,14 +13,30 @@ abstract class _ProdutoController with Store {
   final _apiProdutos = ApiProdutos();
   int _offset = 0;
 
+  ObservableList<Produto> listProdutos = ObservableList<Produto>();
   ObservableList<Produto> listMaisVendidos = ObservableList<Produto>();
 
   @observable
   Status status = Status.none;
 
   @action
+  getProdutos(String pCodCategoria) async {
+    try {
+      listProdutos.clear();
+      status = Status.loading;
+      List<Produto> list = await _apiProdutos.getProdutos(pCodCategoria);
+      listProdutos.addAll(list);
+      status = Status.success;
+    } catch (e) {
+      status = Status.error;
+      throw e.toString();
+    }
+  }
+
+  @action
   getMaisVendidos() async {
     try {
+      listMaisVendidos.clear();
       status = Status.loading;
       List<Produto> list = await _apiProdutos.getMaisVendidos();
       listMaisVendidos.addAll(list);
