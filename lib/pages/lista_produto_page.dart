@@ -5,6 +5,7 @@ import 'package:sticker_fun/controllers/produto_controller.dart';
 import 'package:sticker_fun/controllers/status_ext.dart';
 import 'package:sticker_fun/models/categoria.dart';
 import 'package:sticker_fun/models/produto.dart';
+import 'package:sticker_fun/pages/produto_page.dart';
 import 'package:sticker_fun/widgets/app_list_tile.dart';
 import 'package:sticker_fun/widgets/app_slide_item.dart';
 
@@ -34,6 +35,16 @@ class _ListaProdutosPageState extends State<ListaProdutosPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.categoria.descCategoria),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                        return ProdutoPage();
+                      }));
+                }),
+          ],
         ),
         body: _body());
   }
@@ -77,14 +88,7 @@ class _ListaProdutosPageState extends State<ListaProdutosPage> {
 
               return Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                child: AppListTile(produto: produto,),
-
-                /*AppSlideItem(
-                  img: produto.imagens[0].url,
-                  title: produto.descProduto,
-                  detalhes: produto.detalhes,
-                  rating: "4.5",
-                ),*/
+                child: AppListTile(produto: produto)
               );
             },
           ),

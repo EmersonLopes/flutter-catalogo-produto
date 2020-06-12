@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sticker_fun/models/produto.dart';
+import 'package:sticker_fun/pages/produto_page.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class AppListTile extends StatefulWidget {
@@ -18,41 +19,49 @@ class _AppListTileState extends State<AppListTile> {
       padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
 //      height: MediaQuery.of(context).size.height / 2.9,
 //      width: MediaQuery.of(context).size.width / 1.2,
-      child: Card(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        elevation: 3.0,
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Container(
-                  height: 200.0, //MediaQuery.of(context).size.height / 3.7,
-                  width: MediaQuery.of(context).size.width,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
+      child: InkWell(
+        onTap: (){
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+                return ProdutoPage(produto: widget.produto);
+              }));
+        },
+        child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          elevation: 3.0,
+          child: Column(
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Container(
+                    height: 200.0, //MediaQuery.of(context).size.height / 3.7,
+                    width: MediaQuery.of(context).size.width,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
+                      child: widget.produto.imagens?.length > 0? FadeInImage.memoryNetwork(
+                        placeholder: kTransparentImage,
+                        fit: BoxFit.cover,
+                        image: widget.produto.imagens[0].url,
+                      ):Container(),
                     ),
-                    child: widget.produto.imagens?.length > 0? FadeInImage.memoryNetwork(
-                      placeholder: kTransparentImage,
-                      fit: BoxFit.cover,
-                      image: widget.produto.imagens[0].url,
-                    ):Container(),
                   ),
-                ),
-                _Rating(),
-                _Promocao(),
-              ],
-            ),
-            SizedBox(height: 7.0),
-            _Title(),
-            SizedBox(height: 7.0),
-            _Preco(),
-            SizedBox(height: 2.0),
-            _Detalhes(),
-            SizedBox(height: 10.0),
-          ],
+                  _Rating(),
+                  _Promocao(),
+                ],
+              ),
+              SizedBox(height: 7.0),
+              _Title(),
+              SizedBox(height: 7.0),
+              _Preco(),
+              SizedBox(height: 2.0),
+              _Detalhes(),
+              SizedBox(height: 10.0),
+            ],
+          ),
         ),
       ),
     );
