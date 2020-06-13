@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_skeleton/flutter_skeleton.dart';
-import 'package:provider/provider.dart';
 import 'package:sticker_fun/controllers/categoria_controller.dart';
 import 'package:sticker_fun/controllers/produto_controller.dart';
 import 'package:sticker_fun/controllers/status_ext.dart';
@@ -46,7 +45,7 @@ class _MyHomePageState extends State<HomePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    themeStore ??= Provider.of<ThemeStore>(context);
+//    themeStore ??= Provider.of<ThemeStore>(context);
   }
 
   @override
