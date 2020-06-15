@@ -1,6 +1,6 @@
-# sticker_fun
+# my_catalog
 
-A fun sticker application.
+Um aplicativo de catalogo de produtos.
 
 ## Getting Started
 

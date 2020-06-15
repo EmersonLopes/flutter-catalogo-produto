@@ -12,12 +12,14 @@ class ProdutoCadastroPage extends StatefulWidget {
 
 class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
   TextEditingController _tituloControl;
+  TextEditingController _detalhesControl;
   TextEditingController _valorController;
 
   @override
   void initState() {
     super.initState();
     _tituloControl = TextEditingController();
+    _detalhesControl = TextEditingController();
     _valorController = TextEditingController();
     _valorController.text = '0.00';
   }
@@ -25,6 +27,7 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
   @override
   void dispose() {
     _tituloControl.dispose();
+    _detalhesControl.dispose();
     _valorController.dispose();
     super.dispose();
   }
@@ -47,6 +50,7 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
           Titulo(),
           Valor(),
           Detalhes(),
+          BotaoSalvar()
         ],
       ),
     );
@@ -96,9 +100,10 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
   }
 
   Detalhes() {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.all(10.0),
       child: TextField(
+        controller: _detalhesControl,
         minLines: null,
         maxLines: 2,
         style: TextStyle(
@@ -131,7 +136,7 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
   }
 
   Valor() {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.all(10.0),
       child: TextField(
         controller: _valorController,
@@ -183,5 +188,25 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
         ],
       ),
     );
+  }
+
+  BotaoSalvar() {
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        child: RaisedButton(
+          color: Colors.white, //Theme.of(context).primaryColor,
+          child: Text(
+            'Salvar',
+            style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.w500),
+          ),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: BorderSide(color: Theme.of(context).accentColor)),
+          onPressed: () {
+            //_SalvarCategoria();
+          },
+        ));
   }
 }

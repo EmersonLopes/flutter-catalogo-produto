@@ -19,26 +19,9 @@ class AppProdutoTitulo extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  name,
-                  style: Theme.of(context).textTheme.headline,
-                ),
-                SizedBox(height: 10),
-                Row(
-                  children: <Widget>[
-                    /*SmoothStarRating(
-                      borderColor: Theme.of(context).primaryColor,
-                      rating: rating,
-                      onRatingChanged: onRatingChanged,
-                    ),*/
-                    SizedBox(width: 10),
-                    Text("$numOfReviews reviews"),
-                  ],
-                ),
-              ],
+            child: Text(
+              name,
+              style: Theme.of(context).textTheme.headline,
             ),
           ),
           priceTag(context, price: price),

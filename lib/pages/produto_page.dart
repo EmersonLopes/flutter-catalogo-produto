@@ -1,6 +1,10 @@
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:sticker_fun/controllers/produto_controller.dart';
+import 'package:sticker_fun/controllers/status_ext.dart';
 import 'package:sticker_fun/models/produto.dart';
 import 'package:sticker_fun/pages/produto_cadastro_page.dart';
 import 'package:sticker_fun/widgets/app_produto_titulo.dart';
@@ -16,7 +20,35 @@ class ProdutoPage extends StatefulWidget {
 }
 
 class _ProdutoPageState extends State<ProdutoPage> {
+  final ProdutoController produtoController = ProdutoController();
+
+  TextEditingController _tituloControl;
+  TextEditingController _detalhesControl;
+  TextEditingController _valorController;
+
   int _current = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _tituloControl = TextEditingController();
+    _detalhesControl = TextEditingController();
+    _valorController = TextEditingController();
+
+    if (widget.produto != null) {
+      _tituloControl.text = widget.produto.descProduto;
+      _valorController.text = widget.produto.valor.toStringAsFixed(2);
+      _detalhesControl.text = widget.produto.detalhes;
+    }
+  }
+
+  @override
+  void dispose() {
+    _tituloControl.dispose();
+    _detalhesControl.dispose();
+    _valorController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +56,25 @@ class _ProdutoPageState extends State<ProdutoPage> {
       appBar: AppBar(
         title: Text('Detalhes'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.edit), onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-              return ProdutoCadastroPage();
-            }));
-          },),
+          Observer(
+            builder: (BuildContext context) {
+              if (produtoController.statusCad == StatusCad.none)
+                return IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    produtoController.setStatusCad(StatusCad.editing);
+                    print('statusCad>>> ${produtoController.statusCad}');
+                  },
+                );
+              return IconButton(
+                icon: Icon(Icons.cancel),
+                onPressed: () {
+                  produtoController.setStatusCad(StatusCad.none);
+                  print('statusCad>>> ${produtoController.statusCad}');
+                },
+              );
+            },
+          ),
           IconButton(icon: Icon(Icons.share)),
         ],
       ),
@@ -65,6 +111,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
           ),
           ImagemIndicator(),
           ItemInfo(),
+          BotaoSalvar()
         ],
       ),
     );
@@ -72,37 +119,34 @@ class _ProdutoPageState extends State<ProdutoPage> {
 
   ItemInfo() {
     return Container(
-      padding: EdgeInsets.all(20),
-      child: Column(
-        children: <Widget>[
-          //shopeName(name: "MacDonalds"),
-          AppProdutoTitulo(
-              name: widget.produto.descProduto,
-              numOfReviews: 24,
-              rating: 4,
-              price: widget.produto.valor.round()),
-          Text(
-            widget.produto.detalhes,
-            style: TextStyle(
-              height: 1.5,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Row shopeName({String name}) {
-    return Row(
-      children: <Widget>[
-        Icon(
-          Icons.location_on,
-          color: Theme.of(context).secondaryHeaderColor,
-        ),
-        SizedBox(width: 10),
-        Text(name),
-      ],
-    );
+        padding: EdgeInsets.all(20),
+        child: Observer(
+          builder: (BuildContext context) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                produtoController.statusCad == StatusCad.none
+                    ? AppProdutoTitulo(
+                        name: widget.produto.descProduto,
+                        numOfReviews: 24,
+                        rating: 4,
+                        price: widget.produto.valor.round())
+                    : TituloCad(),
+                produtoController.statusCad == StatusCad.none
+                    ? Container()
+                    : ValorCad(),
+                produtoController.statusCad == StatusCad.none
+                    ? Text(
+                        widget.produto.detalhes,
+                        style: TextStyle(
+                          height: 1.5,
+                        ),
+                      )
+                    : DetalhesCad(),
+              ],
+            );
+          },
+        ));
   }
 
   OrderButton({size, Function() press}) {
@@ -159,5 +203,134 @@ class _ProdutoPageState extends State<ProdutoPage> {
         );
       }).toList(),
     );
+  }
+
+  TituloCad() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(5.0),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: TextField(
+          controller: _tituloControl,
+          maxLines: 2,
+          style: Theme.of(context).textTheme.headline,
+          decoration: InputDecoration(
+            labelText: 'Descrição',
+            contentPadding: EdgeInsets.all(10.0),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.0),
+              borderSide: BorderSide(
+                color: Colors.white,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white,
+              ),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            hintText: "Título do produto",
+            hintStyle: TextStyle(
+              fontSize: 15.0,
+//              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  DetalhesCad() {
+    return TextField(
+      controller: _detalhesControl,
+      minLines: null,
+      maxLines: 4,
+      style: TextStyle(
+        fontSize: 15.0,
+        color: Colors.black,
+      ),
+      decoration: InputDecoration(
+        labelText: 'Detalhes',
+        contentPadding: EdgeInsets.all(10.0),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          borderSide: BorderSide(
+            color: Colors.white,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.white,
+          ),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        hintText: "Detalhes do produto",
+        hintStyle: TextStyle(
+          fontSize: 15.0,
+//              color: Colors.black,
+        ),
+      ),
+    );
+  }
+
+  ValorCad() {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10.0),
+      child: TextField(
+        controller: _valorController,
+        style: TextStyle(
+          fontSize: 15.0,
+          color: Colors.black,
+        ),
+        decoration: InputDecoration(
+          prefix: Text('R\$ '),
+          labelText: 'Valor',
+          contentPadding: EdgeInsets.all(10.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: BorderSide(
+              color: Colors.white,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          hintText: "Valor do produto",
+          hintStyle: TextStyle(
+            fontSize: 15.0,
+//              color: Colors.black,
+          ),
+        ),
+      ),
+    );
+  }
+
+  BotaoSalvar() {
+    return Container(
+      padding: EdgeInsets.all(20.0),
+        width: MediaQuery.of(context).size.width,
+        child: RaisedButton(
+          color: Colors.white, //Theme.of(context).primaryColor,
+          child: Text(
+            'Salvar',
+            style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.w500),
+          ),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: BorderSide(color: Theme.of(context).accentColor)),
+          onPressed: () {
+            //_SalvarCategoria();
+          },
+        ));
   }
 }

@@ -19,6 +19,9 @@ abstract class _ProdutoController with Store {
   @observable
   Status status = Status.none;
 
+  @observable
+  StatusCad statusCad = StatusCad.none;
+
   @action
   getProdutos(String pCodCategoria) async {
     try {
@@ -45,5 +48,10 @@ abstract class _ProdutoController with Store {
       status = Status.error;
       throw e.toString();
     }
+  }
+
+  @action
+  setStatusCad(StatusCad pStatus){
+    statusCad = pStatus;
   }
 }
