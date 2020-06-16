@@ -17,6 +17,9 @@ abstract class _ProdutoController with Store {
   ObservableList<Produto> listMaisVendidos = ObservableList<Produto>();
 
   @observable
+  Produto produto = Produto();
+
+  @observable
   Status status = Status.none;
 
   @observable
@@ -53,5 +56,18 @@ abstract class _ProdutoController with Store {
   @action
   setStatusCad(StatusCad pStatus){
     statusCad = pStatus;
+  }
+
+  @action
+  updateProduto(Produto p) async {
+    try {
+      produto = null;
+      status = Status.loading;
+      produto = await _apiProdutos.insertProduto(p);
+      status = Status.success;
+    } catch (e) {
+      status = Status.error;
+      throw e.toString();
+    }
   }
 }

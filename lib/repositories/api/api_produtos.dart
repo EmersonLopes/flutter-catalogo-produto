@@ -58,6 +58,28 @@ class ApiProdutos extends ApiBase {
     }
   }
 
+  Future<Produto> insertProduto(Produto produto) async {
+    Uri uri =
+    Uri.http(Constants.URL_BASE, Constants.URL_POST_PRODUTO);
+    print("URI>>> ${uri.toString()}");
+
+    try {
+      final response = await http.post(uri, headers: headers, body: jsonEncode(produto)).timeout(Duration(seconds: timeOut));
+      var responseJson = _response(response);
+      print("RESPONSE>>> ${response.body}");
+      Produto prod =  Produto.fromJson(responseJson);
+
+
+      return prod;
+    } on TimeoutException {
+      throw FetchDataException('Timeout');
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }catch(e){
+      throw Exception(e);
+    }
+  }
+
   dynamic _response(http.Response response) {
     switch (response.statusCode) {
       case 200:

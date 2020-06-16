@@ -3,10 +3,10 @@ import 'dart:ffi';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sticker_fun/controllers/produto_controller.dart';
 import 'package:sticker_fun/controllers/status_ext.dart';
 import 'package:sticker_fun/models/produto.dart';
-import 'package:sticker_fun/pages/produto_cadastro_page.dart';
 import 'package:sticker_fun/widgets/app_produto_titulo.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -22,11 +22,15 @@ class ProdutoPage extends StatefulWidget {
 class _ProdutoPageState extends State<ProdutoPage> {
   final ProdutoController produtoController = ProdutoController();
 
+  final picker = ImagePicker();
+
   TextEditingController _tituloControl;
   TextEditingController _detalhesControl;
   TextEditingController _valorController;
 
   int _current = 0;
+
+  List<Imagens> listImagens;
 
   @override
   void initState() {
@@ -34,11 +38,13 @@ class _ProdutoPageState extends State<ProdutoPage> {
     _tituloControl = TextEditingController();
     _detalhesControl = TextEditingController();
     _valorController = TextEditingController();
+    listImagens = List<Imagens>();
 
     if (widget.produto != null) {
       _tituloControl.text = widget.produto.descProduto;
       _valorController.text = widget.produto.valor.toStringAsFixed(2);
       _detalhesControl.text = widget.produto.detalhes;
+      listImagens = widget.produto.imagens;
     }
   }
 
@@ -63,6 +69,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
                   icon: Icon(Icons.edit),
                   onPressed: () {
                     produtoController.setStatusCad(StatusCad.editing);
+                    listImagens.add(null);
                     print('statusCad>>> ${produtoController.statusCad}');
                   },
                 );
@@ -70,6 +77,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
                 icon: Icon(Icons.cancel),
                 onPressed: () {
                   produtoController.setStatusCad(StatusCad.none);
+                  listImagens.remove(null);
                   print('statusCad>>> ${produtoController.statusCad}');
                 },
               );
@@ -87,28 +95,31 @@ class _ProdutoPageState extends State<ProdutoPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          CarouselSlider(
-            options: CarouselOptions(
-                enlargeCenterPage: false,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _current = index;
-                  });
-                },
-                height: MediaQuery.of(context).size.height * 0.4),
-            items: widget.produto.imagens.map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return FadeInImage.memoryNetwork(
-                    width: MediaQuery.of(context).size.width,
-                    placeholder: kTransparentImage,
-                    fit: BoxFit.cover,
-                    image: i.url,
-                  );
-                },
-              );
-            }).toList(),
-          ),
+          Observer(builder: (BuildContext context) {
+            return CarouselSlider(
+              options: CarouselOptions(
+                  enlargeCenterPage: false,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  },
+                  height: MediaQuery.of(context).size.height * 0.4),
+              items: listImagens.map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    if (i == null) return IconeTirarFoto();
+                    return FadeInImage.memoryNetwork(
+                      width: MediaQuery.of(context).size.width,
+                      placeholder: kTransparentImage,
+                      fit: BoxFit.cover,
+                      image: i.url,
+                    );
+                  },
+                );
+              }).toList(),
+            );
+          }),
           ImagemIndicator(),
           ItemInfo(),
           BotaoSalvar()
@@ -188,8 +199,8 @@ class _ProdutoPageState extends State<ProdutoPage> {
   ImagemIndicator() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: widget.produto.imagens.map((url) {
-        int index = widget.produto.imagens.indexOf(url);
+      children: listImagens.map((url) {
+        int index = listImagens.indexOf(url);
         return Container(
           width: 8.0,
           height: 8.0,
@@ -315,7 +326,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
 
   BotaoSalvar() {
     return Container(
-      padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(20.0),
         width: MediaQuery.of(context).size.width,
         child: RaisedButton(
           color: Colors.white, //Theme.of(context).primaryColor,
@@ -329,8 +340,84 @@ class _ProdutoPageState extends State<ProdutoPage> {
               borderRadius: BorderRadius.circular(18.0),
               side: BorderSide(color: Theme.of(context).accentColor)),
           onPressed: () {
-            //_SalvarCategoria();
+            Produto p = Produto();
+            p.descProduto = _tituloControl.text;
+            p.valor = double.parse(_valorController.text);
+            p.detalhes = _detalhesControl.text;
+            p.imagens = listImagens;
+
+            if (produtoController.updateProduto(p) != null)
+              produtoController.setStatusCad(StatusCad.none);
           },
         ));
+  }
+
+  IconeTirarFoto() {
+    return InkWell(
+      onTap: (){
+        _onAddPressed();
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.33,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Icon(Icons.photo_camera,
+                size: 50.0, color: Theme.of(context).primaryColor),
+            Text(
+              'Incluir imagem',
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).primaryColor),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _onAddPressed() {
+    showModalBottomSheet(
+        context: context,
+        builder: ((_) {
+          return SizedBox(
+            height: 150.0,
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(
+                    Icons.photo_camera,
+//                    color: Theme.of(context).accentColor,
+                  ),
+                  title: Text('Tirar foto'),
+                  onTap: () {
+                    _PegaImage(ImageSource.camera);
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.image,
+//                    color: Theme.of(context).accentColor,
+                  ),
+                  title: Text('Escolher existente...'),
+                  onTap: () async {
+                    await _PegaImage(ImageSource.gallery);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        }));
+  }
+
+  _PegaImage(ImageSource imageSource) async {
+    var pickedFile = await picker.getImage(source: imageSource);
+    /*if (pickedFile != null)
+      _categoriaController.setImage(File(pickedFile.path));
+    else
+      _categoriaController.setImage(null);*/
   }
 }
