@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sticker_fun/controllers/categoria_controller.dart';
+import 'package:sticker_fun/widgets/app_image_source_sheet.dart';
 
 import '../models/categoria.dart';
 import '../models/categoria.dart';
@@ -40,7 +41,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
         actions: <Widget>[
           FlatButton(
             child: Text('LIMPAR'),
-            onPressed: (){
+            onPressed: () {
               _categoriaController.setImage(null);
             },
           )
@@ -73,9 +74,9 @@ class _CategoriaPageState extends State<CategoriaPage> {
                   child: _categoriaController.image == null
                       ? _IconeTirarFoto()
                       : Image.file(
-                    _categoriaController.image,
-                    fit: BoxFit.cover,
-                  ),
+                          _categoriaController.image,
+                          fit: BoxFit.cover,
+                        ),
                 );
               }),
             ),
@@ -106,44 +107,9 @@ class _CategoriaPageState extends State<CategoriaPage> {
     showModalBottomSheet(
         context: context,
         builder: ((_) {
-          return SizedBox(
-            height: 150.0,
-            child: Column(
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(
-                    Icons.photo_camera,
-//                    color: Theme.of(context).accentColor,
-                  ),
-                  title: Text('Tirar foto'),
-                  onTap: () {
-                    _PegaImage(ImageSource.camera);
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.image,
-//                    color: Theme.of(context).accentColor,
-                  ),
-                  title: Text('Escolher existente...'),
-                  onTap: () async {
-                    await _PegaImage(ImageSource.gallery);
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          );
+          return AppimageSourceSheet(
+              (file) => _categoriaController.setImage(file));
         }));
-  }
-
-  _PegaImage(ImageSource imageSource) async {
-    var pickedFile = await picker.getImage(source: imageSource);
-    if (pickedFile != null)
-      _categoriaController.setImage(File(pickedFile.path));
-    else
-      _categoriaController.setImage(null);
   }
 
   _IconeTirarFoto() {
@@ -170,8 +136,6 @@ class _CategoriaPageState extends State<CategoriaPage> {
     var bytes = _categoriaController.image.readAsBytesSync();
     categoria.imagem = base64Encode(bytes);
     Categoria c = await _categoriaController.updateCategoria(categoria);
-    if(c.codCategoria > 0)
-      Navigator.pop(context,true);
-
+    if (c.codCategoria > 0) Navigator.pop(context, true);
   }
 }

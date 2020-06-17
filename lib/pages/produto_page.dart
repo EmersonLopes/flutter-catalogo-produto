@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sticker_fun/controllers/produto_controller.dart';
 import 'package:sticker_fun/controllers/status_ext.dart';
 import 'package:sticker_fun/models/produto.dart';
+import 'package:sticker_fun/pages/produto_cadastro_page.dart';
 import 'package:sticker_fun/widgets/app_produto_titulo.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -68,16 +69,19 @@ class _ProdutoPageState extends State<ProdutoPage> {
                 return IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () {
-                    produtoController.setStatusCad(StatusCad.editing);
-                    listImagens.add(null);
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                      return ProdutoCadastroPage();
+                    }));
+                    //produtoController.setStatusCad(StatusCad.editing);
+                    //listImagens.add(null);
                     print('statusCad>>> ${produtoController.statusCad}');
                   },
                 );
               return IconButton(
                 icon: Icon(Icons.cancel),
                 onPressed: () {
-                  produtoController.setStatusCad(StatusCad.none);
-                  listImagens.remove(null);
+//                  produtoController.setStatusCad(StatusCad.none);
+//                  listImagens.remove(null);
                   print('statusCad>>> ${produtoController.statusCad}');
                 },
               );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sticker_fun/models/produto.dart';
+import 'package:sticker_fun/widgets/app_images_field.dart';
 
 class ProdutoCadastroPage extends StatefulWidget {
   final Produto produto;
@@ -44,21 +45,25 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
 
   Body() {
     return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          IconeTirarFoto(),
-          Titulo(),
-          Valor(),
-          Detalhes(),
-          BotaoSalvar()
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            AppImagesField(),
+            Titulo(),
+            Valor(),
+            Detalhes(),
+            BotaoSalvar()
+          ],
+        ),
       ),
     );
   }
 
   Titulo() {
     return Padding(
-      padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+      padding: const EdgeInsets.only(top: 10.0),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -101,7 +106,7 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
 
   Detalhes() {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(top: 10.0),
       child: TextField(
         controller: _detalhesControl,
         minLines: null,
@@ -137,7 +142,7 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
 
   Valor() {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(top: 10.0),
       child: TextField(
         controller: _valorController,
         style: TextStyle(
@@ -192,7 +197,7 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
 
   BotaoSalvar() {
     return Container(
-        width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width,
         child: RaisedButton(
           color: Colors.white, //Theme.of(context).primaryColor,
           child: Text(
