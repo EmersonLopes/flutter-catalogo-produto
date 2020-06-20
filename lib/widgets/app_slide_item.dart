@@ -28,17 +28,19 @@ class _AppSlideItemState extends State<AppSlideItem> {
               Stack(
                 children: <Widget>[
                   Container(
-                    height: 190.0,// MediaQuery.of(context).size.height / 3.7,
+                    height: 190.0, // MediaQuery.of(context).size.height / 3.7,
                     width: MediaQuery.of(context).size.width,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
-                      child: FadeInImage.memoryNetwork(
-                          fit: BoxFit.cover,
-                          placeholder: kTransparentImage,
-                          image: widget.produto.imagens[0].url),
+                      child: widget.produto.imagens.length > 0
+                          ? FadeInImage.memoryNetwork(
+                              fit: BoxFit.cover,
+                              placeholder: kTransparentImage,
+                              image: widget.produto.imagens[0].url)
+                          : Container(),
                     ),
                   ),
                   Positioned(
@@ -89,7 +91,6 @@ class _AppSlideItemState extends State<AppSlideItem> {
                 ],
               ),
               SizedBox(height: 7.0),
-
               Padding(
                 padding: EdgeInsets.only(left: 12.0, right: 8.0),
                 child: Container(
@@ -106,9 +107,7 @@ class _AppSlideItemState extends State<AppSlideItem> {
                   ),
                 ),
               ),
-
               SizedBox(height: 7.0),
-
               Padding(
                 padding: EdgeInsets.only(left: 12.0, right: 8.0),
                 child: Container(

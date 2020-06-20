@@ -5,74 +5,104 @@ import 'package:transparent_image/transparent_image.dart';
 import 'app_image_source_sheet.dart';
 
 class AppImagesField extends StatelessWidget {
+  final FormFieldSetter<List> onSaved;
+  final List initialValue;
+
+  AppImagesField({this.onSaved, this.initialValue});
+
   @override
   Widget build(BuildContext context) {
     return FormField<List>(
-      initialValue: [],
+      onSaved: onSaved,
+      initialValue: initialValue,
       builder: (FormFieldState field) {
         return Column(
           children: <Widget>[
             Container(
               color: Colors.grey[200],
               height: MediaQuery.of(context).size.height * 0.3,
-              child: ListView.builder(
+              child:
+              field.value.length == 0?
+              TirarFoto(context, field):
+
+              ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: field.value.length + 1,
                 itemBuilder: (BuildContext context, int index) {
-                  if (index == field.value.length)
-                    return GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: ((_) {
-                              return AppimageSourceSheet((file) {
-                                field.didChange(field.value..add(file));
-                              });
-                            }));
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.photo_camera,
-                                size: 50.0,
-                                color: Theme.of(context).primaryColor),
-                            Text(
-                              'Incluir imagem',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).primaryColor),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  return
-                    Stack(
-                      children: <Widget>[
-                        Container(
-//                          margin: EdgeInsets.all(16.0),
-                            padding: const EdgeInsets.all(8.0),
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Image.file(field.value[index], fit: BoxFit.cover)),
-                        Positioned(
-                          top: 1,
-                          left: 1,
-                          child: IconButton(icon: Icon(Icons.delete, color: Colors.black26, size: 32.0,),onPressed: (){},),
-                        )
-                      ],
-                    );
+                  if (field.value.length == index)
+                    return TirarFoto(context, field);
 
-
-
+                  return Foto(context, field, index);
                 },
               ),
             )
           ],
         );
       },
+    );
+  }
+
+  Widget TirarFoto(BuildContext context, FormFieldState field) {
+    return InkWell(
+      onTap: (){
+        showModalBottomSheet(
+            context: context,
+            builder: ((_) {
+              return Container(
+                child: AppimageSourceSheet((file) {
+                  if (file != null) field.didChange(field.value..add(file));
+                }),
+              );
+            }));
+      },
+      child: Container(
+        color: Colors.white,
+        /*decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(width: 2, color: Theme.of(context).accentColor,),
+          borderRadius: BorderRadius.all(
+
+              Radius.circular(10.0) //         <--- border radius here
+          ),
+        ),*/
+        alignment: Alignment.center,
+      width: MediaQuery.of(context).size.width*0.7,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.photo_camera, size: 50.0, color: Colors.black26),
+            Text(
+              'Incluir imagem',
+              style:
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.black26),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget Foto(BuildContext context, FormFieldState field, int index) {
+    return Stack(
+      children: <Widget>[
+        Container(
+//                          margin: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(8.0),
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Image.file(field.value[index], fit: BoxFit.cover)),
+        Positioned(
+          bottom: 5,
+          right: 5,
+          child: IconButton(
+            icon: Icon(
+              Icons.cancel,
+              color: Colors.red[400],
+              size: 32.0,
+            ),
+            onPressed: () {},
+          ),
+        )
+      ],
     );
   }
 }

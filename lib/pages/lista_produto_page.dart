@@ -5,6 +5,7 @@ import 'package:sticker_fun/controllers/produto_controller.dart';
 import 'package:sticker_fun/controllers/status_ext.dart';
 import 'package:sticker_fun/models/categoria.dart';
 import 'package:sticker_fun/models/produto.dart';
+import 'package:sticker_fun/pages/produto_cadastro_page.dart';
 import 'package:sticker_fun/pages/produto_page.dart';
 import 'package:sticker_fun/widgets/app_list_tile.dart';
 import 'package:sticker_fun/widgets/app_slide_item.dart';
@@ -41,7 +42,7 @@ class _ListaProdutosPageState extends State<ListaProdutosPage> {
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                        return ProdutoPage();
+                        return ProdutoCadastroPage(categoria: widget.categoria,);
                       }));
                 }),
           ],

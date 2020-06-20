@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -63,31 +65,16 @@ class _ProdutoPageState extends State<ProdutoPage> {
       appBar: AppBar(
         title: Text('Detalhes'),
         actions: <Widget>[
-          Observer(
-            builder: (BuildContext context) {
-              if (produtoController.statusCad == StatusCad.none)
-                return IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                      return ProdutoCadastroPage();
-                    }));
-                    //produtoController.setStatusCad(StatusCad.editing);
-                    //listImagens.add(null);
-                    print('statusCad>>> ${produtoController.statusCad}');
-                  },
-                );
-              return IconButton(
-                icon: Icon(Icons.cancel),
-                onPressed: () {
-//                  produtoController.setStatusCad(StatusCad.none);
-//                  listImagens.remove(null);
-                  print('statusCad>>> ${produtoController.statusCad}');
-                },
-              );
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return ProdutoCadastroPage();
+              }));
             },
           ),
-          IconButton(icon: Icon(Icons.share)),
+//          IconButton(icon: Icon(Icons.share)),
         ],
       ),
       body: Body(),
@@ -102,7 +89,8 @@ class _ProdutoPageState extends State<ProdutoPage> {
           Observer(builder: (BuildContext context) {
             return CarouselSlider(
               options: CarouselOptions(
-                  enlargeCenterPage: false,
+                  enableInfiniteScroll: false,
+                  enlargeCenterPage: true,
                   onPageChanged: (index, reason) {
                     setState(() {
                       _current = index;
@@ -112,7 +100,8 @@ class _ProdutoPageState extends State<ProdutoPage> {
               items: listImagens.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
-                    if (i == null) return IconeTirarFoto();
+                    if (i.imagem.isNotEmpty) return ImagemBase64(i.imagem);
+
                     return FadeInImage.memoryNetwork(
                       width: MediaQuery.of(context).size.width,
                       placeholder: kTransparentImage,
@@ -125,8 +114,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
             );
           }),
           ImagemIndicator(),
-          ItemInfo(),
-          BotaoSalvar()
+          ItemInfo()
         ],
       ),
     );
@@ -142,17 +130,21 @@ class _ProdutoPageState extends State<ProdutoPage> {
               children: <Widget>[
                 produtoController.statusCad == StatusCad.none
                     ? AppProdutoTitulo(
-                        name: widget.produto.descProduto,
+                        name: widget.produto != null
+                            ? widget.produto.descProduto
+                            : '',
                         numOfReviews: 24,
                         rating: 4,
-                        price: widget.produto.valor.round())
+                        price: widget.produto != null
+                            ? widget.produto.valor.round()
+                            : 0)
                     : TituloCad(),
                 produtoController.statusCad == StatusCad.none
                     ? Container()
                     : ValorCad(),
                 produtoController.statusCad == StatusCad.none
                     ? Text(
-                        widget.produto.detalhes,
+                        widget.produto != null ? widget.produto.detalhes : '',
                         style: TextStyle(
                           height: 1.5,
                         ),
@@ -218,6 +210,11 @@ class _ProdutoPageState extends State<ProdutoPage> {
         );
       }).toList(),
     );
+  }
+
+  ImagemBase64(String img64) {
+    final decodedBytes = base64Decode(img64);
+    return Image.memory(decodedBytes, fit: BoxFit.cover);
   }
 
   TituloCad() {
@@ -328,37 +325,9 @@ class _ProdutoPageState extends State<ProdutoPage> {
     );
   }
 
-  BotaoSalvar() {
-    return Container(
-        padding: EdgeInsets.all(20.0),
-        width: MediaQuery.of(context).size.width,
-        child: RaisedButton(
-          color: Colors.white, //Theme.of(context).primaryColor,
-          child: Text(
-            'Salvar',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.w500),
-          ),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-              side: BorderSide(color: Theme.of(context).accentColor)),
-          onPressed: () {
-            Produto p = Produto();
-            p.descProduto = _tituloControl.text;
-            p.valor = double.parse(_valorController.text);
-            p.detalhes = _detalhesControl.text;
-            p.imagens = listImagens;
-
-            if (produtoController.updateProduto(p) != null)
-              produtoController.setStatusCad(StatusCad.none);
-          },
-        ));
-  }
-
   IconeTirarFoto() {
     return InkWell(
-      onTap: (){
+      onTap: () {
         _onAddPressed();
       },
       child: Container(

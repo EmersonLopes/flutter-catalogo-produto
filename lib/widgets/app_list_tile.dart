@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:sticker_fun/models/produto.dart';
 import 'package:sticker_fun/pages/produto_page.dart';
@@ -20,11 +22,11 @@ class _AppListTileState extends State<AppListTile> {
 //      height: MediaQuery.of(context).size.height / 2.9,
 //      width: MediaQuery.of(context).size.width / 1.2,
       child: InkWell(
-        onTap: (){
+        onTap: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (BuildContext context) {
-                return ProdutoPage(produto: widget.produto);
-              }));
+            return ProdutoPage(produto: widget.produto);
+          }));
         },
         child: Card(
           shape:
@@ -42,15 +44,13 @@ class _AppListTileState extends State<AppListTile> {
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
-                      child: widget.produto.imagens?.length > 0? FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        fit: BoxFit.cover,
-                        image: widget.produto.imagens[0].url,
-                      ):Container(),
+                      child: widget.produto.imagens?.length > 0
+                          ? ImagemUrl()
+                          : Container(),
                     ),
                   ),
-                  _Rating(),
-                  _Promocao(),
+//                  _Rating(),
+//                  _Promocao(),
                 ],
               ),
               SizedBox(height: 7.0),
@@ -171,5 +171,15 @@ class _AppListTileState extends State<AppListTile> {
         ),
       ),
     );
+  }
+
+  ImagemUrl() {
+    return widget.produto.imagens[0].imagem.isNotEmpty
+        ? Image.memory(base64Decode(widget.produto.imagens[0].imagem))
+        : FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            fit: BoxFit.cover,
+            image: widget.produto.imagens[0].url,
+          );
   }
 }

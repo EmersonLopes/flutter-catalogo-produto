@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:sticker_fun/controllers/produto_controller.dart';
+import 'package:sticker_fun/models/categoria.dart';
 import 'package:sticker_fun/models/produto.dart';
+import 'package:sticker_fun/pages/produto_page.dart';
 import 'package:sticker_fun/widgets/app_images_field.dart';
 
 class ProdutoCadastroPage extends StatefulWidget {
   final Produto produto;
+  final Categoria categoria;
 
-  ProdutoCadastroPage({this.produto});
+  ProdutoCadastroPage({@required this.categoria, this.produto});
 
   @override
   _ProdutoCadastroPageState createState() => _ProdutoCadastroPageState();
@@ -15,6 +21,10 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
   TextEditingController _tituloControl;
   TextEditingController _detalhesControl;
   TextEditingController _valorController;
+
+  final ProdutoController _produtoController = ProdutoController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -37,25 +47,56 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Produto'),
+        title: Text(widget.categoria.descCategoria, overflow: TextOverflow.ellipsis,),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('SALVAR'),
+            onPressed: () => _SalvarProduto(),
+          )
+        ],
       ),
       body: Body(),
     );
   }
 
   Body() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            AppImagesField(),
-            Titulo(),
-            Valor(),
-            Detalhes(),
-            BotaoSalvar()
-          ],
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                AppImagesField(
+                  onSaved: (images) {
+                    if ((images != null) && (images.length > 0)) {
+//                    _produtoController.produto.imagens.clear();
+                      List<Imagens> list = List<Imagens>();
+                      for (var img in images) {
+                        list.add(Imagens(
+                            url: '',
+                            codProduto: 0,
+                            codProdutoImagem: 0,
+                            descImagem: '',
+                            imagem: base64Encode(img.readAsBytesSync())));
+                      }
+                      _produtoController.produto.imagens = list;
+                    }
+                  },
+                  initialValue:
+                      widget.produto != null ? widget.produto.imagens : [],
+                ),
+                Titulo(),
+                Valor(),
+                Detalhes(),
+//                BotaoSalvar()
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -84,12 +125,12 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide: BorderSide(
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
               ),
               borderRadius: BorderRadius.circular(5.0),
             ),
@@ -105,35 +146,38 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
   }
 
   Detalhes() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
-      child: TextField(
-        controller: _detalhesControl,
-        minLines: null,
-        maxLines: 2,
-        style: TextStyle(
-          fontSize: 15.0,
-          color: Colors.black,
-        ),
-        decoration: InputDecoration(
-          labelText: 'Detalhes',
-          contentPadding: EdgeInsets.all(10.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.0),
-            borderSide: BorderSide(
-              color: Colors.white,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.white,
-            ),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          hintText: "Detalhes do produto",
-          hintStyle: TextStyle(
+    return Container(
+      height: 200.0,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: TextField(
+          controller: _detalhesControl,
+          minLines: null,
+          maxLines: 2,
+          style: TextStyle(
             fontSize: 15.0,
+            color: Colors.black,
+          ),
+          decoration: InputDecoration(
+            labelText: 'Detalhes',
+            contentPadding: EdgeInsets.all(10.0),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.0),
+              borderSide: BorderSide(
+                color: Colors.white,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Theme.of(context).primaryColor,
+              ),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            hintText: "Detalhes do produto",
+            hintStyle: TextStyle(
+              fontSize: 15.0,
 //              color: Colors.black,
+            ),
           ),
         ),
       ),
@@ -161,7 +205,7 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.white,
+              color: Theme.of(context).primaryColor,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
@@ -175,43 +219,45 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
     );
   }
 
-  IconeTirarFoto() {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.33,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Icon(Icons.photo_camera,
-              size: 50.0, color: Theme.of(context).primaryColor),
-          Text(
-            'Incluir imagem',
-            style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).primaryColor),
-          )
-        ],
-      ),
+  BotaoSalvar() {
+    return Positioned(
+      bottom: 10.0,
+      left: 8.0,
+      right: 8.0,
+      child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: RaisedButton(
+            color: Colors.white, //Theme.of(context).primaryColor,
+            child: Text(
+              'Salvar',
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w500),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+                side: BorderSide(color: Theme.of(context).accentColor)),
+            onPressed: () {
+              if (_formKey.currentState.validate())
+                _formKey.currentState.save();
+              _SalvarProduto();
+            },
+          )),
     );
   }
 
-  BotaoSalvar() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-        child: RaisedButton(
-          color: Colors.white, //Theme.of(context).primaryColor,
-          child: Text(
-            'Salvar',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.w500),
-          ),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-              side: BorderSide(color: Theme.of(context).accentColor)),
-          onPressed: () {
-            //_SalvarCategoria();
-          },
-        ));
+  _SalvarProduto() {
+    _produtoController.produto.descProduto = _tituloControl.text;
+    _produtoController.produto.valor = double.parse(_valorController.text);
+    _produtoController.produto.detalhes = _detalhesControl.text;
+    _produtoController.produto.codCategoria = widget.categoria.codCategoria;
+
+    Produto p = _produtoController.updateProduto(_produtoController.produto);
+
+    if (p != null)
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) {
+        return ProdutoPage(produto: p);
+      }));
   }
 }
