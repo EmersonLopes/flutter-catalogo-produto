@@ -40,6 +40,13 @@ class Produto {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Produto{codProduto: $codProduto, descProduto: $descProduto, codCategoria: $codCategoria, valor: $valor, detalhes: $detalhes, imagens: $imagens}';
+  }
+
+
 }
 
 class Imagens {
@@ -73,4 +80,11 @@ class Imagens {
     data['imagem'] = this.imagem;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Imagens{codProdutoImagem: $codProdutoImagem, codProduto: $codProduto, descImagem: $descImagem, url: $url, imagem: $imagem}';
+  }
+
+
 }

@@ -4,13 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_skeleton/flutter_skeleton.dart';
-import 'package:sticker_fun/controllers/categoria_controller.dart';
-import 'package:sticker_fun/controllers/produto_controller.dart';
-import 'package:sticker_fun/controllers/status_ext.dart';
-import 'package:sticker_fun/models/categoria.dart';
-import 'package:sticker_fun/models/produto.dart';
-import 'package:sticker_fun/themes/theme_store.dart';
-import 'package:sticker_fun/widgets/app_slide_item.dart';
+import 'package:mycatalog/controllers/categoria_controller.dart';
+import 'package:mycatalog/controllers/produto_controller.dart';
+import 'package:mycatalog/controllers/status_ext.dart';
+import 'package:mycatalog/models/categoria.dart';
+import 'package:mycatalog/models/produto.dart';
+import 'package:mycatalog/widgets/app_slide_item.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import 'lista_categoria_page.dart';
@@ -24,7 +23,7 @@ class HomePage extends StatefulWidget {
 class _MyHomePageState extends State<HomePage> {
   ProdutoController produtoController = ProdutoController();
   CategoriaController categoriaController = CategoriaController();
-  ThemeStore themeStore;
+
   final TextEditingController _searchControl = new TextEditingController();
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -229,6 +228,7 @@ class _MyHomePageState extends State<HomePage> {
                   Icons.error_outline,
                   color: Theme.of(context).primaryColor,
                 ),
+                onPressed: (){},
               ));
 
         return Container(

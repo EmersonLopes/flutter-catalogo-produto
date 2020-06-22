@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sticker_fun/widgets/app_alertdialog.dart';
+import 'package:mycatalog/widgets/app_alertdialog.dart';
 
 class Dialogs {
   static showSnack() {}

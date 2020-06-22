@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:sticker_fun/models/categoria.dart';
-import 'package:sticker_fun/utils/constants.dart';
+import 'package:mycatalog/models/categoria.dart';
+import 'package:mycatalog/utils/constants.dart';
 import 'dart:convert';
-
-import '../../models/categoria.dart';
 import '../../models/categoria.dart';
 import '../CustomException.dart';
 import 'api_base.dart';

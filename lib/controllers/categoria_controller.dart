@@ -1,11 +1,10 @@
 import 'dart:io';
 
 import 'package:mobx/mobx.dart';
-import 'package:sticker_fun/controllers/status_ext.dart';
-import 'package:sticker_fun/models/categoria.dart';
-import 'package:sticker_fun/repositories/api/api_categorias.dart';
+import 'package:mycatalog/controllers/status_ext.dart';
+import 'package:mycatalog/models/categoria.dart';
+import 'package:mycatalog/repositories/api/api_categorias.dart';
 
-import '../models/categoria.dart';
 import '../models/categoria.dart';
 
 part 'categoria_controller.g.dart';

@@ -1,22 +1,21 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sticker_fun/controllers/produto_controller.dart';
-import 'package:sticker_fun/controllers/status_ext.dart';
-import 'package:sticker_fun/models/produto.dart';
-import 'package:sticker_fun/pages/produto_cadastro_page.dart';
-import 'package:sticker_fun/widgets/app_produto_titulo.dart';
+import 'package:mycatalog/controllers/produto_controller.dart';
+import 'package:mycatalog/controllers/status_ext.dart';
+import 'package:mycatalog/models/categoria.dart';
+import 'package:mycatalog/models/produto.dart';
+import 'package:mycatalog/pages/produto_cadastro_page.dart';
+import 'package:mycatalog/widgets/app_produto_titulo.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class ProdutoPage extends StatefulWidget {
   final Produto produto;
+  final Categoria categoria;
 
-  ProdutoPage({this.produto});
+  ProdutoPage({this.produto, this.categoria});
 
   @override
   _ProdutoPageState createState() => _ProdutoPageState();
@@ -70,7 +69,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (BuildContext context) {
-                return ProdutoCadastroPage();
+                return ProdutoCadastroPage(produto: widget.produto, categoria: widget.categoria,);
               }));
             },
           ),
@@ -258,33 +257,36 @@ class _ProdutoPageState extends State<ProdutoPage> {
   }
 
   DetalhesCad() {
-    return TextField(
-      controller: _detalhesControl,
-      minLines: null,
-      maxLines: 4,
-      style: TextStyle(
-        fontSize: 15.0,
-        color: Colors.black,
-      ),
-      decoration: InputDecoration(
-        labelText: 'Detalhes',
-        contentPadding: EdgeInsets.all(10.0),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5.0),
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.white,
-          ),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        hintText: "Detalhes do produto",
-        hintStyle: TextStyle(
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: TextField(
+        controller: _detalhesControl,
+        minLines: null,
+        maxLines: 4,
+        style: TextStyle(
           fontSize: 15.0,
+          color: Colors.black,
+        ),
+        decoration: InputDecoration(
+          labelText: 'Detalhes',
+          contentPadding: EdgeInsets.all(10.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: BorderSide(
+              color: Colors.white,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          hintText: "Detalhes do produto",
+          hintStyle: TextStyle(
+            fontSize: 15.0,
 //              color: Colors.black,
+          ),
         ),
       ),
     );

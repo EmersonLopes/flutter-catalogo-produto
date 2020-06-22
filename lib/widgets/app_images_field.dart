@@ -21,20 +21,18 @@ class AppImagesField extends StatelessWidget {
             Container(
               color: Colors.grey[200],
               height: MediaQuery.of(context).size.height * 0.3,
-              child:
-              field.value.length == 0?
-              TirarFoto(context, field):
+              child: field.value.length == 0
+                  ? TirarFoto(context, field)
+                  : ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: field.value.length + 1,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (field.value.length == index)
+                          return TirarFoto(context, field);
 
-              ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: field.value.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  if (field.value.length == index)
-                    return TirarFoto(context, field);
-
-                  return Foto(context, field, index);
-                },
-              ),
+                        return Foto(context, field, index);
+                      },
+                    ),
             )
           ],
         );
@@ -44,7 +42,7 @@ class AppImagesField extends StatelessWidget {
 
   Widget TirarFoto(BuildContext context, FormFieldState field) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         showModalBottomSheet(
             context: context,
             builder: ((_) {
@@ -57,16 +55,8 @@ class AppImagesField extends StatelessWidget {
       },
       child: Container(
         color: Colors.white,
-        /*decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(width: 2, color: Theme.of(context).accentColor,),
-          borderRadius: BorderRadius.all(
-
-              Radius.circular(10.0) //         <--- border radius here
-          ),
-        ),*/
         alignment: Alignment.center,
-      width: MediaQuery.of(context).size.width*0.7,
+        width: MediaQuery.of(context).size.width * 0.7,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -86,10 +76,11 @@ class AppImagesField extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Container(
-//                          margin: EdgeInsets.all(16.0),
             padding: const EdgeInsets.all(8.0),
             width: MediaQuery.of(context).size.width * 0.7,
-            child: Image.file(field.value[index], fit: BoxFit.cover)),
+            child: initialValue.length>0?
+            Image.memory(field.value[index], fit: BoxFit.cover):
+    Image.file(field.value[index], fit: BoxFit.cover)),
         Positioned(
           bottom: 5,
           right: 5,

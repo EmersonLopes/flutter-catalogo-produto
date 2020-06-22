@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sticker_fun/models/produto.dart';
+import 'package:mycatalog/models/produto.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class AppSlideItem extends StatefulWidget {
@@ -43,7 +43,7 @@ class _AppSlideItemState extends State<AppSlideItem> {
                           : Container(),
                     ),
                   ),
-                  Positioned(
+                  /*Positioned(
                     top: 6.0,
                     right: 6.0,
                     child: Card(
@@ -87,7 +87,7 @@ class _AppSlideItemState extends State<AppSlideItem> {
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
               SizedBox(height: 7.0),

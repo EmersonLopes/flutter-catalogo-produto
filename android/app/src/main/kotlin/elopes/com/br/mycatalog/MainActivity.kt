@@ -1,4 +1,4 @@
-package elopes.com.br.sticker_fun
+package elopes.com.br.mycatalog
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

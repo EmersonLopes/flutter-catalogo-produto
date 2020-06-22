@@ -1,9 +1,9 @@
 import 'package:mobx/mobx.dart';
-import 'package:sticker_fun/controllers/status_ext.dart';
-import 'package:sticker_fun/models/categoria.dart';
-import 'package:sticker_fun/models/produto.dart';
-import 'package:sticker_fun/repositories/api/api_categorias.dart';
-import 'package:sticker_fun/repositories/api/api_produtos.dart';
+import 'package:mycatalog/controllers/status_ext.dart';
+import 'package:mycatalog/models/categoria.dart';
+import 'package:mycatalog/models/produto.dart';
+import 'package:mycatalog/repositories/api/api_categorias.dart';
+import 'package:mycatalog/repositories/api/api_produtos.dart';
 
 part 'produto_controller.g.dart';
 
@@ -59,12 +59,14 @@ abstract class _ProdutoController with Store {
   }
 
   @action
-  updateProduto(Produto p) async {
+  Future<Produto> updateProduto(Produto p) async {
     try {
       produto = null;
       status = Status.loading;
       produto = await _apiProdutos.insertProduto(p);
+
       status = Status.success;
+      return produto;
     } catch (e) {
       status = Status.error;
       throw e.toString();

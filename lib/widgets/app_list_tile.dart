@@ -1,14 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:sticker_fun/models/produto.dart';
-import 'package:sticker_fun/pages/produto_page.dart';
+import 'package:mycatalog/models/categoria.dart';
+import 'package:mycatalog/models/produto.dart';
+import 'package:mycatalog/pages/produto_page.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class AppListTile extends StatefulWidget {
   final Produto produto;
+  final Categoria categoria;
 
-  AppListTile({@required this.produto});
+  AppListTile({@required this.produto, @required this.categoria});
 
   @override
   _AppListTileState createState() => _AppListTileState();
@@ -25,7 +27,10 @@ class _AppListTileState extends State<AppListTile> {
         onTap: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (BuildContext context) {
-            return ProdutoPage(produto: widget.produto);
+            return ProdutoPage(
+              produto: widget.produto,
+              categoria: widget.categoria,
+            );
           }));
         },
         child: Card(

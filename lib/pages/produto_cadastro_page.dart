@@ -1,17 +1,19 @@
 import 'dart:convert';
-
+import 'dart:typed_data';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:sticker_fun/controllers/produto_controller.dart';
-import 'package:sticker_fun/models/categoria.dart';
-import 'package:sticker_fun/models/produto.dart';
-import 'package:sticker_fun/pages/produto_page.dart';
-import 'package:sticker_fun/widgets/app_images_field.dart';
+import 'package:flutter/services.dart';
+import 'package:mycatalog/controllers/produto_controller.dart';
+import 'package:mycatalog/models/categoria.dart';
+import 'package:mycatalog/models/produto.dart';
+import 'package:mycatalog/pages/produto_page.dart';
+import 'package:mycatalog/widgets/app_images_field.dart';
 
 class ProdutoCadastroPage extends StatefulWidget {
   final Produto produto;
   final Categoria categoria;
 
-  ProdutoCadastroPage({@required this.categoria, this.produto});
+  ProdutoCadastroPage({@required this.categoria, @required this.produto});
 
   @override
   _ProdutoCadastroPageState createState() => _ProdutoCadastroPageState();
@@ -32,7 +34,16 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
     _tituloControl = TextEditingController();
     _detalhesControl = TextEditingController();
     _valorController = TextEditingController();
-    _valorController.text = '0.00';
+    print(widget.produto);
+    if (widget.produto == null) {
+      _tituloControl.text = '';
+      _valorController.text = '0.00';
+      _detalhesControl.text = '';
+    } else {
+      _tituloControl.text = widget.produto.descProduto;
+      _valorController.text = widget.produto.valor.toStringAsFixed(2);
+      _detalhesControl.text = widget.produto.detalhes;
+    }
   }
 
   @override
@@ -47,11 +58,19 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.categoria.descCategoria, overflow: TextOverflow.ellipsis,),
+        title: Text(
+          widget.categoria.descCategoria,
+          overflow: TextOverflow.ellipsis,
+        ),
         actions: <Widget>[
           FlatButton(
             child: Text('SALVAR'),
-            onPressed: () => _SalvarProduto(),
+            onPressed: () async {
+              if (_formKey.currentState.validate()) {
+                _formKey.currentState.save();
+                await _SalvarProduto();
+              }
+            },
           )
         ],
       ),
@@ -73,8 +92,9 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
               children: <Widget>[
                 AppImagesField(
                   onSaved: (images) {
+                    print('onSaved');
                     if ((images != null) && (images.length > 0)) {
-//                    _produtoController.produto.imagens.clear();
+                      print('IMAGENS>> ${images}');
                       List<Imagens> list = List<Imagens>();
                       for (var img in images) {
                         list.add(Imagens(
@@ -87,8 +107,9 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
                       _produtoController.produto.imagens = list;
                     }
                   },
-                  initialValue:
-                      widget.produto != null ? widget.produto.imagens : [],
+                  initialValue: widget.produto != null
+                      ? ImagensToUint8List(widget.produto.imagens)
+                      : [],
                 ),
                 Titulo(),
                 Valor(),
@@ -112,9 +133,14 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
             Radius.circular(5.0),
           ),
         ),
-        child: TextField(
+        child: TextFormField(
           controller: _tituloControl,
           maxLines: 1,
+          validator: (value) {
+            if (value.isEmpty) return 'Informe uma descrição';
+
+            return null;
+          },
           style: TextStyle(
             fontSize: 15.0,
             color: Colors.black,
@@ -150,10 +176,15 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
       height: 200.0,
       child: Padding(
         padding: const EdgeInsets.only(top: 10.0),
-        child: TextField(
+        child: TextFormField(
           controller: _detalhesControl,
           minLines: null,
           maxLines: 2,
+          validator: (value) {
+            if (value.isEmpty) return 'Informe os detalhes';
+
+            return null;
+          },
           style: TextStyle(
             fontSize: 15.0,
             color: Colors.black,
@@ -187,8 +218,14 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
   Valor() {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
-      child: TextField(
+      child: TextFormField(
         controller: _valorController,
+        validator: (value) {
+          if ((value.trim().isEmpty) || (double.tryParse(value) == null))
+            return 'Valor inválido';
+
+          return null;
+        },
         style: TextStyle(
           fontSize: 15.0,
           color: Colors.black,
@@ -215,6 +252,12 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
 //              color: Colors.black,
           ),
         ),
+        keyboardType:
+            TextInputType.numberWithOptions(decimal: true, signed: false),
+        inputFormatters: [
+          WhitelistingTextInputFormatter.digitsOnly,
+          RealInputFormatter(centavos: true)
+        ],
       ),
     );
   }
@@ -237,27 +280,40 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
                 side: BorderSide(color: Theme.of(context).accentColor)),
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState.validate())
                 _formKey.currentState.save();
-              _SalvarProduto();
+              await _SalvarProduto();
             },
           )),
     );
   }
 
-  _SalvarProduto() {
+  _SalvarProduto() async {
     _produtoController.produto.descProduto = _tituloControl.text;
     _produtoController.produto.valor = double.parse(_valorController.text);
     _produtoController.produto.detalhes = _detalhesControl.text;
     _produtoController.produto.codCategoria = widget.categoria.codCategoria;
+    print(_produtoController.produto);
 
-    Produto p = _produtoController.updateProduto(_produtoController.produto);
+    Produto p =
+        await _produtoController.updateProduto(_produtoController.produto);
 
     if (p != null)
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) {
         return ProdutoPage(produto: p);
       }));
+  }
+
+  ImagensToUint8List(List<Imagens> imagens) {
+    List<Uint8List> files = List<Uint8List>();
+
+    for (var img in imagens) {
+      var uint8 = base64Decode(img.imagem);
+      files.add(uint8);
+    }
+
+    return files;
   }
 }

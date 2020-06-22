@@ -1,14 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_skeleton/flutter_skeleton.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:sticker_fun/controllers/categoria_controller.dart';
-import 'package:sticker_fun/controllers/status_ext.dart';
-import 'package:sticker_fun/models/categoria.dart';
-import 'package:sticker_fun/pages/categoria_page.dart';
-import 'package:sticker_fun/utils/dialogs.dart';
+import 'package:mycatalog/controllers/categoria_controller.dart';
+import 'package:mycatalog/controllers/status_ext.dart';
+import 'package:mycatalog/models/categoria.dart';
+import 'package:mycatalog/pages/categoria_page.dart';
+import 'package:mycatalog/utils/dialogs.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class ListaCategoriaPage extends StatefulWidget {

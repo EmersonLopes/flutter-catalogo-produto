@@ -1,15 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sticker_fun/controllers/categoria_controller.dart';
-import 'package:sticker_fun/widgets/app_image_source_sheet.dart';
+import 'package:mycatalog/controllers/categoria_controller.dart';
+import 'package:mycatalog/widgets/app_image_source_sheet.dart';
+import '../models/categoria.dart';
 
-import '../models/categoria.dart';
-import '../models/categoria.dart';
-import '../models/categoria.dart';
 
 class CategoriaPage extends StatefulWidget {
   @override

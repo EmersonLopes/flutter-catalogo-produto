@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:sticker_fun/models/categoria.dart';
-import 'package:sticker_fun/models/produto.dart';
-import 'package:sticker_fun/utils/constants.dart';
+import 'package:mycatalog/models/produto.dart';
+import 'package:mycatalog/utils/constants.dart';
 import 'dart:convert';
 
 import '../CustomException.dart';

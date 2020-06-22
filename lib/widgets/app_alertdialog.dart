@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AppAlertDialog extends StatelessWidget {
@@ -17,7 +16,7 @@ class AppAlertDialog extends StatelessWidget {
       actions: <Widget>[
         onYes == null
             ? FlatButton(
-                child: Text(tr('ok')),
+                child: Text('Ok'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -25,17 +24,17 @@ class AppAlertDialog extends StatelessWidget {
             : null,
         onYes != null
             ? FlatButton(
-                child: Text(tr('yes')),
+                child: Text('Sim'),
                 onPressed: () => onYes(),
               )
             : null,
         onNo != null
             ? FlatButton(
-                child: Text(tr('no')),
+                child: Text('Não'),
                 onPressed: () => onNo(),
               )
             : FlatButton(
-                child: Text(tr('no')),
+                child: Text('Não'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

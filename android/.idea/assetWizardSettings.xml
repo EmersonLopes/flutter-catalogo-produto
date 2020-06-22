@@ -51,7 +51,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="scalingPercent" value="82" />
+                                                <entry key="scalingPercent" value="75" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -61,8 +62,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundImage" value="D:\Dev\Android\Funny Stickers\Logo\background.png" />
-                                      <entry key="foregroundImage" value="D:\Dev\Android\Funny Stickers\Logo\foreground.png" />
+                                      <entry key="backgroundImage" value="D:\Dev\Android\my-catalog\Logo\background.png" />
+                                      <entry key="foregroundImage" value="D:\Dev\Android\my-catalog\Logo\foreground.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
