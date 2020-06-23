@@ -56,6 +56,31 @@ class ApiProdutos extends ApiBase {
     }
   }
 
+  Future<List<Produto>> getPromocoes() async {
+
+    Uri uri =
+    Uri.http(Constants.URL_BASE, Constants.URL_PROMOCOES);
+    print("URI>>> ${uri.toString()}");
+
+    try {
+      final response = await http.get(uri, headers: headers).timeout(Duration(seconds: timeOut));
+      List responseJson = _response(response);
+      print("RESPONSE>>> ${response.body}");
+      List<Produto> list =  responseJson.map((i)=> Produto.fromJson(i)).toList();
+
+
+      return list;
+    } on TimeoutException {
+      throw FetchDataException('Timeout');
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }catch(e){
+      throw Exception(e);
+    }
+  }
+
+
+
   Future<Produto> insertProduto(Produto produto) async {
     Uri uri =
     Uri.http(Constants.URL_BASE, Constants.URL_POST_PRODUTO);

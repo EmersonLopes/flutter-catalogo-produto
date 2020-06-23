@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mycatalog/utils/dialogs.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import 'app_image_source_sheet.dart';
@@ -90,7 +91,13 @@ class AppImagesField extends StatelessWidget {
               color: Colors.red[400],
               size: 32.0,
             ),
-            onPressed: () {},
+            onPressed: () async {
+              bool ok = await Dialogs.showQuestion(context, 'Excluir imagem', 'Deseja excluir imagem?');
+              if(ok){
+                (field.value as List).remove(field.value[index]);
+                field.didChange(field.value);
+              }
+            },
           ),
         )
       ],

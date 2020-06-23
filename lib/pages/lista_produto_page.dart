@@ -40,7 +40,7 @@ class _ListaProdutosPageState extends State<ListaProdutosPage> {
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                        return ProdutoCadastroPage(categoria: widget.categoria,);
+                        return ProdutoCadastroPage(categoria: widget.categoria,produto: null );
                       }));
                 }),
           ],

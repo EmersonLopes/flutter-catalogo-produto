@@ -15,6 +15,7 @@ abstract class _ProdutoController with Store {
 
   ObservableList<Produto> listProdutos = ObservableList<Produto>();
   ObservableList<Produto> listMaisVendidos = ObservableList<Produto>();
+  ObservableList<Produto> listPromocoes = ObservableList<Produto>();
 
   @observable
   Produto produto = Produto();
@@ -46,6 +47,20 @@ abstract class _ProdutoController with Store {
       status = Status.loading;
       List<Produto> list = await _apiProdutos.getMaisVendidos();
       listMaisVendidos.addAll(list);
+      status = Status.success;
+    } catch (e) {
+      status = Status.error;
+      throw e.toString();
+    }
+  }
+
+  @action
+  getPromocoes() async {
+    try {
+      listPromocoes.clear();
+      status = Status.loading;
+      List<Produto> list = await _apiProdutos.getPromocoes();
+      listPromocoes.addAll(list);
       status = Status.success;
     } catch (e) {
       status = Status.error;

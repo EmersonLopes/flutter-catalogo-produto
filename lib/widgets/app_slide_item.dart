@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mycatalog/models/produto.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -36,10 +38,7 @@ class _AppSlideItemState extends State<AppSlideItem> {
                         topRight: Radius.circular(10),
                       ),
                       child: widget.produto.imagens.length > 0
-                          ? FadeInImage.memoryNetwork(
-                              fit: BoxFit.cover,
-                              placeholder: kTransparentImage,
-                              image: widget.produto.imagens[0].url)
+                          ? ImagemUrl()
                           : Container(),
                     ),
                   ),
@@ -127,6 +126,16 @@ class _AppSlideItemState extends State<AppSlideItem> {
           ),
         ),
       ),
+    );
+  }
+
+  ImagemUrl() {
+    return widget.produto.imagens[0].imagem.isNotEmpty
+        ? Image.memory(base64Decode(widget.produto.imagens[0].imagem))
+        : FadeInImage.memoryNetwork(
+      placeholder: kTransparentImage,
+      fit: BoxFit.cover,
+      image: widget.produto.imagens[0].url,
     );
   }
 }

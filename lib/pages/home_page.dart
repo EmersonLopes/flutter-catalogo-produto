@@ -27,7 +27,7 @@ class _MyHomePageState extends State<HomePage> {
   final TextEditingController _searchControl = new TextEditingController();
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+  new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -105,7 +105,10 @@ class _MyHomePageState extends State<HomePage> {
         ),
       ),
       preferredSize: Size(
-        MediaQuery.of(context).size.width,
+        MediaQuery
+            .of(context)
+            .size
+            .width,
         60.0,
       ),
     );
@@ -137,7 +140,9 @@ class _MyHomePageState extends State<HomePage> {
                       Text(
                         "EDIT",
                         style: TextStyle(
-                          color: Theme.of(context).accentColor,
+                          color: Theme
+                              .of(context)
+                              .accentColor,
                         ),
                       ),
                       SizedBox(
@@ -146,7 +151,9 @@ class _MyHomePageState extends State<HomePage> {
                       Icon(
                         Icons.edit,
                         size: 14.0,
-                        color: Theme.of(context).accentColor,
+                        color: Theme
+                            .of(context)
+                            .accentColor,
                       ),
                     ],
                   ),
@@ -180,7 +187,7 @@ class _MyHomePageState extends State<HomePage> {
               ],
             ),
             SizedBox(height: 6.0),
-            _MaisVendidos(),
+            _ListaHorizontal(produtoController.listMaisVendidos),
             SizedBox(height: 6.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,7 +202,7 @@ class _MyHomePageState extends State<HomePage> {
               ],
             ),
             SizedBox(height: 6.0),
-            _MaisVendidos(),
+            _ListaHorizontal(produtoController.listPromocoes),
           ],
         ),
       ),
@@ -221,15 +228,7 @@ class _MyHomePageState extends State<HomePage> {
 
         if ((categoriaController.status == Status.error) &&
             (categoriaController.listCategorias.length == 0))
-          return SizedBox(
-              height: 100.0,
-              child: IconButton(
-                icon: Icon(
-                  Icons.error_outline,
-                  color: Theme.of(context).primaryColor,
-                ),
-                onPressed: (){},
-              ));
+          return Erro('Não possível carregar informações');
 
         return Container(
           height: 100.0, //MediaQuery.of(context).size.height / 6,
@@ -247,8 +246,8 @@ class _MyHomePageState extends State<HomePage> {
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return ListaProdutosPage(categoria);
-                  }));
+                        return ListaProdutosPage(categoria);
+                      }));
                 },
                 child: Padding(
                   padding: EdgeInsets.only(right: 10.0),
@@ -258,14 +257,14 @@ class _MyHomePageState extends State<HomePage> {
                       children: <Widget>[
                         categoria.imagem.isEmpty
                             ? FadeInImage.memoryNetwork(
-                                placeholder: kTransparentImage,
-                                fit: BoxFit.cover,
-                                image: categoria.url,
-                                height: 100.0,
-                                //MediaQuery.of(context).size.height / 6,
-                                width:
-                                    100.0, //MediaQuery.of(context).size.height / 6,
-                              )
+                          placeholder: kTransparentImage,
+                          fit: BoxFit.cover,
+                          image: categoria.url,
+                          height: 100.0,
+                          //MediaQuery.of(context).size.height / 6,
+                          width:
+                          100.0, //MediaQuery.of(context).size.height / 6,
+                        )
                             : _ImagemBase64(categoria.imagem),
                         Container(
                           decoration: BoxDecoration(
@@ -284,7 +283,7 @@ class _MyHomePageState extends State<HomePage> {
                           height: 100.0,
                           //MediaQuery.of(context).size.height / 6,
                           width:
-                              100.0, //MediaQuery.of(context).size.height / 6,
+                          100.0, //MediaQuery.of(context).size.height / 6,
                         ),
                         Center(
                           child: Container(
@@ -322,36 +321,46 @@ class _MyHomePageState extends State<HomePage> {
     );
   }
 
-  _MaisVendidos() {
+  _ListaHorizontal(List list) {
     return Observer(
       builder: (BuildContext context) {
         if ((produtoController.status == Status.loading) &&
-            (produtoController.listMaisVendidos.length == 0))
+            (list.length == 0))
           return Container(
             height: 270.0, //MediaQuery.of(context).size.height / 2.4,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            child: CardSkeleton(
+              style: SkeletonStyle(
+                isCircleAvatar: false,
+                isShowAvatar: true,
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                barCount: 2,
+              ),
+            ),
           );
 
         if ((produtoController.status == Status.error) &&
-            (produtoController.listMaisVendidos.length == 0))
-          return Container(
-            height: 270.0, //MediaQuery.of(context).size.height / 2.4,
-            width: MediaQuery.of(context).size.width,
-            child: Text('Não possível carregar informações'),
-          );
+            (list.length == 0))
+          return Erro('Não possível carregar informações');
         //Horizontal List here
         return Container(
           height: 270.0, //MediaQuery.of(context).size.height / 2.4,
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
           child: ListView.builder(
             primary: false,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: produtoController.listMaisVendidos == null
+            itemCount: list == null
                 ? 0
-                : produtoController.listMaisVendidos.length,
+                : list.length,
             itemBuilder: (BuildContext context, int index) {
-              Produto produto = produtoController.listMaisVendidos[index];
+              Produto produto = list[index];
 
               return Padding(
                 padding: EdgeInsets.only(right: 10.0),
@@ -367,8 +376,9 @@ class _MyHomePageState extends State<HomePage> {
   }
 
   Future<void> CarregaInformacoes() async {
-    await produtoController.getMaisVendidos();
     await categoriaController.getCategorias();
+    await produtoController.getMaisVendidos();
+    await produtoController.getPromocoes();
   }
 
   _ImagemBase64(String img64) {
@@ -387,4 +397,26 @@ class _MyHomePageState extends State<HomePage> {
     Image.memory(_bytesImage)
     Image.memory(_bytesImage).image*/
   }
+
+  Erro(String msg) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Icon(
+          Icons.error_outline,
+          size: 28,
+          color: Theme
+              .of(context)
+              .primaryColor
+
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: Text(msg),
+        ),
+      ],
+    );
+  }
+
 }
