@@ -67,26 +67,8 @@ class _AppSlideItemState extends State<AppSlideItem> {
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: 6.0,
-                    left: 6.0,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(3.0)),
-                      child: Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: Text(
-                          " OPEN ",
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
                   ),*/
+                  _Promocoes(),
                 ],
               ),
               SizedBox(height: 7.0),
@@ -133,9 +115,33 @@ class _AppSlideItemState extends State<AppSlideItem> {
     return widget.produto.imagens[0].imagem.isNotEmpty
         ? Image.memory(base64Decode(widget.produto.imagens[0].imagem))
         : FadeInImage.memoryNetwork(
-      placeholder: kTransparentImage,
-      fit: BoxFit.cover,
-      image: widget.produto.imagens[0].url,
-    );
+            placeholder: kTransparentImage,
+            fit: BoxFit.cover,
+            image: widget.produto.imagens[0].url,
+          );
+  }
+
+  _Promocoes() {
+    return widget.produto.percDesconto <= 0
+        ? Container()
+        : Positioned(
+            top: 6.0,
+            left: 6.0,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3.0)),
+              child: Padding(
+                padding: EdgeInsets.all(4.0),
+                child: Text(
+                  widget.produto.percDesconto.toString() + ' %',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          );
   }
 }

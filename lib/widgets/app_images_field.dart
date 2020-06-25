@@ -79,7 +79,7 @@ class AppImagesField extends StatelessWidget {
         Container(
             padding: const EdgeInsets.all(8.0),
             width: MediaQuery.of(context).size.width * 0.7,
-            child: initialValue.length>0?
+            child: initialValue.length>1?
             Image.memory(field.value[index], fit: BoxFit.cover):
     Image.file(field.value[index], fit: BoxFit.cover)),
         Positioned(

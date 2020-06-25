@@ -221,7 +221,9 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
       child: TextFormField(
         controller: _valorController,
         validator: (value) {
-          if ((value.trim().isEmpty) || (double.tryParse(value) == null))
+          print('Valor>> ${value.replaceAll('.','').replaceAll(',', '.')}');
+          print('Valor>> ${double.tryParse(value.replaceAll('.','').replaceAll(',', '.'))}');
+          if ((value.trim().isEmpty) || (double.tryParse(value.replaceAll('.','').replaceAll(',', '.')) == null))
             return 'Valor inválido';
 
           return null;
@@ -291,7 +293,7 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
 
   _SalvarProduto() async {
     _produtoController.produto.descProduto = _tituloControl.text;
-    _produtoController.produto.valor = double.parse(_valorController.text);
+    _produtoController.produto.valor = double.tryParse(_valorController.text.replaceAll('.','').replaceAll(',', '.'));
     _produtoController.produto.detalhes = _detalhesControl.text;
     _produtoController.produto.codCategoria = widget.categoria.codCategoria;
     print(_produtoController.produto);

@@ -65,7 +65,7 @@ class ApiProdutos extends ApiBase {
     try {
       final response = await http.get(uri, headers: headers).timeout(Duration(seconds: timeOut));
       List responseJson = _response(response);
-      print("RESPONSE>>> ${response.body}");
+      print("PROMOCOES>>> ${response.body}");
       List<Produto> list =  responseJson.map((i)=> Produto.fromJson(i)).toList();
 
 

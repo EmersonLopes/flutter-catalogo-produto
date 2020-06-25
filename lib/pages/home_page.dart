@@ -84,7 +84,7 @@ class _MyHomePageState extends State<HomePage> {
                   ),
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                hintText: "Search..",
+                hintText: "Procurar..",
                 prefixIcon: Icon(
                   Icons.search,
                   color: Colors.black,
@@ -138,7 +138,7 @@ class _MyHomePageState extends State<HomePage> {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        "EDIT",
+                        "EDITAR",
                         style: TextStyle(
                           color: Theme
                               .of(context)

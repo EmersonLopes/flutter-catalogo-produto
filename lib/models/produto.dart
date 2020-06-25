@@ -4,6 +4,7 @@ class Produto {
   int codCategoria;
   double valor;
   String detalhes;
+  double percDesconto;
   List<Imagens> imagens;
 
   Produto(
@@ -12,6 +13,7 @@ class Produto {
         this.codCategoria,
         this.valor,
         this.detalhes,
+        this.percDesconto,
         this.imagens});
 
   Produto.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class Produto {
     codCategoria = json['codCategoria'];
     valor = json['valor'] == null? 0 : double.parse(json['valor'].toString());
     detalhes = json['detalhes'];
+    percDesconto = json['percDesconto'] == null? 0 : double.parse(json['percDesconto'].toString());
     if (json['imagens'] != null) {
       imagens = new List<Imagens>();
       json['imagens'].forEach((v) {
@@ -35,6 +38,7 @@ class Produto {
     data['codCategoria'] = this.codCategoria;
     data['valor'] = this.valor;
     data['detalhes'] = this.detalhes;
+    data['percDesconto'] = this.percDesconto;
     if (this.imagens != null) {
       data['imagens'] = this.imagens.map((v) => v.toJson()).toList();
     }
@@ -43,10 +47,8 @@ class Produto {
 
   @override
   String toString() {
-    return 'Produto{codProduto: $codProduto, descProduto: $descProduto, codCategoria: $codCategoria, valor: $valor, detalhes: $detalhes, imagens: $imagens}';
+    return 'Produto{codProduto: $codProduto, descProduto: $descProduto, codCategoria: $codCategoria, valor: $valor, detalhes: $detalhes, percDesconto: $percDesconto, imagens: $imagens}';
   }
-
-
 }
 
 class Imagens {
