@@ -366,6 +366,7 @@ class _MyHomePageState extends State<HomePage> {
                 padding: EdgeInsets.only(right: 10.0),
                 child: AppSlideItem(
                   produto: produto,
+                  categoria: Categoria(codCategoria: produto.codCategoria),
                 ),
               );
             },

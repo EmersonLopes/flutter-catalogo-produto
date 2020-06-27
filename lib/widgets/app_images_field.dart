@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mycatalog/utils/dialogs.dart';
@@ -74,14 +76,15 @@ class AppImagesField extends StatelessWidget {
   }
 
   Widget Foto(BuildContext context, FormFieldState field, int index) {
+    print('initialValue.length>>> ${initialValue.length}');
     return Stack(
       children: <Widget>[
         Container(
             padding: const EdgeInsets.all(8.0),
             width: MediaQuery.of(context).size.width * 0.7,
-            child: initialValue.length>1?
-            Image.memory(field.value[index], fit: BoxFit.cover):
-    Image.file(field.value[index], fit: BoxFit.cover)),
+            child: (field.value[index] is File)
+                ? Image.file(field.value[index], fit: BoxFit.cover)
+                : Image.memory(field.value[index], fit: BoxFit.cover)),
         Positioned(
           bottom: 5,
           right: 5,
@@ -92,8 +95,9 @@ class AppImagesField extends StatelessWidget {
               size: 32.0,
             ),
             onPressed: () async {
-              bool ok = await Dialogs.showQuestion(context, 'Excluir imagem', 'Deseja excluir imagem?');
-              if(ok){
+              bool ok = await Dialogs.showQuestion(
+                  context, 'Excluir imagem', 'Deseja excluir imagem?');
+              if (ok) {
                 (field.value as List).remove(field.value[index]);
                 field.didChange(field.value);
               }

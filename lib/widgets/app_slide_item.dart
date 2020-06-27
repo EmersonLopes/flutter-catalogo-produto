@@ -1,13 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mycatalog/models/categoria.dart';
 import 'package:mycatalog/models/produto.dart';
+import 'package:mycatalog/pages/produto_page.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class AppSlideItem extends StatefulWidget {
   final Produto produto;
+  final Categoria categoria;
 
-  AppSlideItem({@required this.produto});
+  AppSlideItem({@required this.produto, @required this.categoria});
 
   @override
   _AppSlideItemState createState() => _AppSlideItemState();
@@ -16,9 +19,16 @@ class AppSlideItem extends StatefulWidget {
 class _AppSlideItemState extends State<AppSlideItem> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+    return InkWell(
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+          return ProdutoPage(
+              produto: widget.produto, categoria: widget.categoria);
+        }));
+      },
       child: Container(
+        padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
         height: 300, //MediaQuery.of(context).size.height / 2.9,
         width: MediaQuery.of(context).size.width / 1.2,
         child: Card(
@@ -42,32 +52,7 @@ class _AppSlideItemState extends State<AppSlideItem> {
                           : Container(),
                     ),
                   ),
-                  /*Positioned(
-                    top: 6.0,
-                    right: 6.0,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0)),
-                      child: Padding(
-                        padding: EdgeInsets.all(2.0),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                              size: 10,
-                            ),
-                            Text(
-                              " 4.5 ",
-                              style: TextStyle(
-                                fontSize: 10,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),*/
+//                  _Rating(),
                   _Promocoes(),
                 ],
               ),
@@ -143,5 +128,33 @@ class _AppSlideItemState extends State<AppSlideItem> {
               ),
             ),
           );
+  }
+
+  _Rating() {
+    return Positioned(
+      top: 6.0,
+      right: 6.0,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+        child: Padding(
+          padding: EdgeInsets.all(2.0),
+          child: Row(
+            children: <Widget>[
+              Icon(
+                Icons.star,
+                color: Colors.amber,
+                size: 10,
+              ),
+              Text(
+                " 4.5 ",
+                style: TextStyle(
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -59,7 +59,7 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.categoria.descCategoria,
+          widget.categoria.descCategoria?? widget.produto.descProduto,
           overflow: TextOverflow.ellipsis,
         ),
         actions: <Widget>[
