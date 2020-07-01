@@ -41,6 +41,20 @@ abstract class _ProdutoController with Store {
   }
 
   @action
+  getProdutosDescricao(String pDescricao) async {
+    try {
+      listProdutos.clear();
+      status = Status.loading;
+      List<Produto> list = await _apiProdutos.getProdutosDescricao(pDescricao);
+      listProdutos.addAll(list);
+      status = Status.success;
+    } catch (e) {
+      status = Status.error;
+      throw e.toString();
+    }
+  }
+
+  @action
   getMaisVendidos() async {
     try {
       listMaisVendidos.clear();

@@ -9,96 +9,114 @@ import '../CustomException.dart';
 import 'api_base.dart';
 
 class ApiProdutos extends ApiBase {
-
   Future<List<Produto>> getProdutos(String pCodCategoria) async {
-
     Uri uri =
-    Uri.http(Constants.URL_BASE, Constants.URL_PRODUTOS+pCodCategoria);
-    print("URI>>> ${uri.toString()}");
+        Uri.http(Constants.URL_BASE, Constants.URL_PRODUTOS + pCodCategoria);
 
     try {
-      final response = await http.get(uri, headers: headers).timeout(Duration(seconds: timeOut));
+      final response = await http
+          .get(uri, headers: headers)
+          .timeout(Duration(seconds: timeOut));
       List responseJson = _response(response);
-      print("RESPONSE>>> ${response.body}");
-      List<Produto> list =  responseJson.map((i)=> Produto.fromJson(i)).toList();
 
+      List<Produto> list =
+          responseJson.map((i) => Produto.fromJson(i)).toList();
 
       return list;
     } on TimeoutException {
       throw FetchDataException('Timeout');
     } on SocketException {
       throw FetchDataException('No Internet connection');
-    }catch(e){
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Produto>> getProdutosDescricao(String pDescricao) async {
+    Uri uri =
+        Uri.http(Constants.URL_BASE, Constants.URL_PRODUTOS_DESC + pDescricao);
+
+    try {
+      final response = await http
+          .get(uri, headers: headers)
+          .timeout(Duration(seconds: timeOut));
+      List responseJson = _response(response);
+      print(responseJson);
+
+      List<Produto> list =
+          responseJson.map((i) => Produto.fromJson(i)).toList();
+      if (list[0].codProduto == null) list.clear();
+
+      return list;
+    } on TimeoutException {
+      throw FetchDataException('Timeout');
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    } catch (e) {
       throw Exception(e);
     }
   }
 
   Future<List<Produto>> getMaisVendidos() async {
-
-    Uri uri =
-        Uri.http(Constants.URL_BASE, Constants.URL_MAIS_VENDIDOS);
-    print("URI>>> ${uri.toString()}");
+    Uri uri = Uri.http(Constants.URL_BASE, Constants.URL_MAIS_VENDIDOS);
 
     try {
-      final response = await http.get(uri, headers: headers).timeout(Duration(seconds: timeOut));
+      final response = await http
+          .get(uri, headers: headers)
+          .timeout(Duration(seconds: timeOut));
       List responseJson = _response(response);
-      print("RESPONSE>>> ${response.body}");
-      List<Produto> list =  responseJson.map((i)=> Produto.fromJson(i)).toList();
 
+      List<Produto> list =
+          responseJson.map((i) => Produto.fromJson(i)).toList();
 
       return list;
     } on TimeoutException {
       throw FetchDataException('Timeout');
     } on SocketException {
       throw FetchDataException('No Internet connection');
-    }catch(e){
+    } catch (e) {
       throw Exception(e);
     }
   }
 
   Future<List<Produto>> getPromocoes() async {
-
-    Uri uri =
-    Uri.http(Constants.URL_BASE, Constants.URL_PROMOCOES);
-    print("URI>>> ${uri.toString()}");
+    Uri uri = Uri.http(Constants.URL_BASE, Constants.URL_PROMOCOES);
 
     try {
-      final response = await http.get(uri, headers: headers).timeout(Duration(seconds: timeOut));
+      final response = await http
+          .get(uri, headers: headers)
+          .timeout(Duration(seconds: timeOut));
       List responseJson = _response(response);
-      print("PROMOCOES>>> ${response.body}");
-      List<Produto> list =  responseJson.map((i)=> Produto.fromJson(i)).toList();
-
+      List<Produto> list =
+          responseJson.map((i) => Produto.fromJson(i)).toList();
 
       return list;
     } on TimeoutException {
       throw FetchDataException('Timeout');
     } on SocketException {
       throw FetchDataException('No Internet connection');
-    }catch(e){
+    } catch (e) {
       throw Exception(e);
     }
   }
 
-
-
   Future<Produto> insertProduto(Produto produto) async {
-    Uri uri =
-    Uri.http(Constants.URL_BASE, Constants.URL_POST_PRODUTO);
-    print("URI>>> ${uri.toString()}");
+    Uri uri = Uri.http(Constants.URL_BASE, Constants.URL_POST_PRODUTO);
 
     try {
-      final response = await http.post(uri, headers: headers, body: jsonEncode(produto)).timeout(Duration(seconds: timeOut));
+      final response = await http
+          .post(uri, headers: headers, body: jsonEncode(produto))
+          .timeout(Duration(seconds: timeOut));
       var responseJson = _response(response);
-      print("RESPONSE>>> ${response.body}");
-      Produto prod =  Produto.fromJson(responseJson);
 
+      Produto prod = Produto.fromJson(responseJson);
 
       return prod;
     } on TimeoutException {
       throw FetchDataException('Timeout');
     } on SocketException {
       throw FetchDataException('No Internet connection');
-    }catch(e){
+    } catch (e) {
       throw Exception(e);
     }
   }
@@ -107,7 +125,7 @@ class ApiProdutos extends ApiBase {
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(response.body.toString());
-//        print(responseJson);
+
         return responseJson;
       case 400:
         throw BadRequestException(response.body.toString());

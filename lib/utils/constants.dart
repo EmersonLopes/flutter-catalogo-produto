@@ -8,6 +8,7 @@ class Constants{
   static const String URL_MAIS_VENDIDOS = "/DataSnap/rest/TServiceProduto/GetMaisVendidos";
   static const String URL_PROMOCOES = "/DataSnap/rest/TServiceProduto/GetPromocoes";
   static const String URL_PRODUTOS = "/DataSnap/rest/TServiceProduto/GetProdutos/";
+  static const String URL_PRODUTOS_DESC = "/DataSnap/rest/TServiceProduto/GetProdutosDescricao/";
   static const String URL_POST_PRODUTO = "/DataSnap/rest/TServiceProduto/Produtos/";
 
   static const String URL_UPDATE_CATEGORIA = "/DataSnap/rest/TServiceCategoria/Categoria";

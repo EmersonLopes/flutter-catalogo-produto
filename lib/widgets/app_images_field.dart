@@ -76,7 +76,7 @@ class AppImagesField extends StatelessWidget {
   }
 
   Widget Foto(BuildContext context, FormFieldState field, int index) {
-    print('initialValue.length>>> ${initialValue.length}');
+
     return Stack(
       children: <Widget>[
         Container(

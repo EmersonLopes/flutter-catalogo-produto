@@ -34,7 +34,7 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
     _tituloControl = TextEditingController();
     _detalhesControl = TextEditingController();
     _valorController = TextEditingController();
-    print(widget.produto);
+
     if (widget.produto == null) {
       _tituloControl.text = '';
       _valorController.text = '0.00';
@@ -92,9 +92,9 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
               children: <Widget>[
                 AppImagesField(
                   onSaved: (images) {
-                    print('onSaved');
+
                     if ((images != null) && (images.length > 0)) {
-                      print('IMAGENS>> ${images}');
+
                       List<Imagens> list = List<Imagens>();
                       for (var img in images) {
                         list.add(Imagens(
@@ -221,8 +221,6 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
       child: TextFormField(
         controller: _valorController,
         validator: (value) {
-          print('Valor>> ${value.replaceAll('.','').replaceAll(',', '.')}');
-          print('Valor>> ${double.tryParse(value.replaceAll('.','').replaceAll(',', '.'))}');
           if ((value.trim().isEmpty) || (double.tryParse(value.replaceAll('.','').replaceAll(',', '.')) == null))
             return 'Valor inválido';
 
@@ -296,7 +294,6 @@ class _ProdutoCadastroPageState extends State<ProdutoCadastroPage> {
     _produtoController.produto.valor = double.tryParse(_valorController.text.replaceAll('.','').replaceAll(',', '.'));
     _produtoController.produto.detalhes = _detalhesControl.text;
     _produtoController.produto.codCategoria = widget.categoria.codCategoria;
-    print(_produtoController.produto);
 
     Produto p =
         await _produtoController.updateProduto(_produtoController.produto);

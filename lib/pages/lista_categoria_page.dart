@@ -106,7 +106,7 @@ class _ListaCategoriaPageState extends State<ListaCategoriaPage> {
               trailing: IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () async {
-                    print('MENU ID>>>' + categoria.codCategoria.toString());
+
                     //if (i > 0) _menuController.getMenusSqlite();
                     Dialogs.showQuestion(
                             context, 'Deletar menu', "Deseja deletar menu?")

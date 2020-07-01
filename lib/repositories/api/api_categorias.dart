@@ -11,14 +11,13 @@ import 'api_base.dart';
 class ApiCategorias extends ApiBase {
   Future<List<Categoria>> getCategorias(int offset) async {
     Uri uri = Uri.http(Constants.URL_BASE, Constants.URL_CATEGORIAS);
-    print("URI>>> ${uri.toString()}");
 
     try {
       final response = await http
           .get(uri, headers: headers)
           .timeout(Duration(seconds: timeOut));
       List responseJson = _response(response);
-      print("RESPONSE>>> ${response.body}");
+
       List<Categoria> listCategoria =
           responseJson.map((i) => Categoria.fromJson(i)).toList();
 
@@ -34,7 +33,6 @@ class ApiCategorias extends ApiBase {
 
   Future<Categoria> updateCategoria(Categoria categoria) async {
     Uri uri = Uri.http(Constants.URL_BASE, Constants.URL_UPDATE_CATEGORIA);
-    print("URI>>> ${uri.toString()}");
 
     String s = json.encode(categoria);
 
@@ -43,7 +41,7 @@ class ApiCategorias extends ApiBase {
           .post(uri, body: s, headers: headers)
           .timeout(Duration(seconds: timeOut));
       Map responseJson = _response(response);
-      print("RESPONSE>>> ${response.body}");
+
       Categoria categoria = Categoria.fromJson(responseJson);
 
       return categoria;
@@ -60,7 +58,6 @@ class ApiCategorias extends ApiBase {
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(response.body.toString());
-//        print(responseJson);
         return responseJson;
       case 400:
         throw BadRequestException(response.body.toString());

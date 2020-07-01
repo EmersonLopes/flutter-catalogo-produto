@@ -9,6 +9,7 @@ import 'package:mycatalog/controllers/produto_controller.dart';
 import 'package:mycatalog/controllers/status_ext.dart';
 import 'package:mycatalog/models/categoria.dart';
 import 'package:mycatalog/models/produto.dart';
+import 'package:mycatalog/pages/pesquisa_page.dart';
 import 'package:mycatalog/widgets/app_slide_item.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -100,6 +101,11 @@ class _MyHomePageState extends State<HomePage> {
               ),
               maxLines: 1,
               controller: _searchControl,
+              onSubmitted: (value){
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                  return PesquisaPage(descricao: value,);
+                }));
+              },
             ),
           ),
         ),
