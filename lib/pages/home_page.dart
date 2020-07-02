@@ -10,6 +10,7 @@ import 'package:mycatalog/controllers/status_ext.dart';
 import 'package:mycatalog/models/categoria.dart';
 import 'package:mycatalog/models/produto.dart';
 import 'package:mycatalog/pages/pesquisa_page.dart';
+import 'package:mycatalog/widgets/app_search.dart';
 import 'package:mycatalog/widgets/app_slide_item.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -52,64 +53,13 @@ class _MyHomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(appBar: _AppBar(), body: _body());
   }
-
   _AppBar() {
     return PreferredSize(
-      child: Padding(
-        padding: EdgeInsets.only(top: 30.0, left: 10.0, right: 10.0),
-        child: Card(
-          elevation: 6.0,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.0),
-              ),
-            ),
-            child: TextField(
-              style: TextStyle(
-                fontSize: 15.0,
-                color: Colors.black,
-              ),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(10.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                hintText: "Procurar..",
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.black,
-                ),
-                suffixIcon: Icon(
-                  Icons.filter_list,
-                  color: Colors.black,
-                ),
-                hintStyle: TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.black,
-                ),
-              ),
-              maxLines: 1,
-              controller: _searchControl,
-              onSubmitted: (value){
-                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                  return PesquisaPage(descricao: value,);
-                }));
-              },
-            ),
-          ),
-        ),
-      ),
+      child: AppSearch(onSubmitted: (value) {
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+          return PesquisaPage(descricao: value);
+        }));
+      }, prefixIcon: null),
       preferredSize: Size(
         MediaQuery
             .of(context)
