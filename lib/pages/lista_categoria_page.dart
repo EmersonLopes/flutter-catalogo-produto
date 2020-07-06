@@ -57,23 +57,28 @@ class _ListaCategoriaPageState extends State<ListaCategoriaPage> {
               }),
         ],
       ),
-      body: Observer(
-        builder: (BuildContext context) {
-          if (_categoriaController.status == Status.loading)
-            return CardListSkeleton(
-              style: SkeletonStyle(
-                isShowAvatar: true,
-                isCircleAvatar: true,
-                barCount: 0,
-              ),
-            );
-
-          if (_categoriaController.status == Status.error)
-            return Center(
-                child: Text('Não foi possível carregar as informações'));
-
-          return _listCategorias();
+      body: RefreshIndicator(
+        onRefresh: (){
+          return _categoriaController.getCategorias();
         },
+        child: Observer(
+          builder: (BuildContext context) {
+            if (_categoriaController.status == Status.loading)
+              return CardListSkeleton(
+                style: SkeletonStyle(
+                  isShowAvatar: true,
+                  isCircleAvatar: true,
+                  barCount: 0,
+                ),
+              );
+
+            if (_categoriaController.status == Status.error)
+              return Center(
+                  child: Text('Não foi possível carregar as informações'));
+
+            return _listCategorias();
+          },
+        ),
       ),
     );
   }
