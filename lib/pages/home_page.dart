@@ -74,8 +74,8 @@ class _MyHomePageState extends State<HomePage> {
     return Padding(
       padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
       child: RefreshIndicator(
-        onRefresh: () {
-          return CarregaInformacoes();
+        onRefresh: () async {
+          return await CarregaInformacoes();
         },
         child: ListView(
           children: <Widget>[
@@ -332,10 +332,10 @@ class _MyHomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> CarregaInformacoes() async {
-    await categoriaController.getCategorias();
-    await produtoController.getMaisVendidos();
-    await produtoController.getPromocoes();
+  Future<void> CarregaInformacoes() {
+    categoriaController.getCategorias();
+    produtoController.getMaisVendidos();
+    produtoController.getPromocoes();
   }
 
   _ImagemBase64(String img64) {
